@@ -1,0 +1,11 @@
+{
+  "name": "firedux",
+  "version": "0.0.0",
+  "description": "Firebase + Redux for ReactJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anders D. Johnson (https://github.com/adjohnson916)",
+  "license": "MIT"
+}
