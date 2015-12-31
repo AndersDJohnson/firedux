@@ -2,6 +2,7 @@
   "name": "firedux",
   "version": "0.0.0",
   "description": "Firebase + Redux for ReactJS",
+  "repository": "adjohnson916/firedux",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
