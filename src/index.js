@@ -1,10 +1,12 @@
 import Firebase from 'firebase'
+import _promise from 'es6-promise'
+const { Promise } = _promise
 import _ from 'lodash'
 import updeep from 'updeep'
 import _debug from 'debug'
 const debug = _debug('firedux')
 
-const { localStorage } = window
+const localStorage = typeof window === 'object' ? window.localStorage : null
 
 const initialState = {
   data: {}
