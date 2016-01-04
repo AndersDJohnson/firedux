@@ -5,7 +5,7 @@ Wraps the [Firebase JavaScript API](https://www.firebase.com/docs/web/api/)
 to dispatch Redux actions
 that optimisically & immediately read/write to an in-memory
 subset of your data from Firebase,
-then asynchronously pulls & pushes data in the background.
+then asynchronously pull & push data in the background.
 
 ## Install
 
