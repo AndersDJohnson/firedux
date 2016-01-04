@@ -1,6 +1,6 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties (target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -22,9 +22,9 @@ var _debug2 = require('debug');
 
 var _debug3 = _interopRequireDefault(_debug2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault (obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var debug = (0, _debug3.default)('firedux');
 
@@ -35,16 +35,16 @@ var initialState = {
   data: {}
 };
 
-function splitUrl(url) {
+function splitUrl (url) {
   return url.split(/\//);
 }
-function urlToKeyPath(url) {
+function urlToKeyPath (url) {
   var keyPath = splitUrl(url).join('.');
   return keyPath;
 }
 
 var Firedux = (function () {
-  function Firedux(options) {
+  function Firedux (options) {
     _classCallCheck(this, Firedux);
 
     var that = this;
@@ -60,7 +60,7 @@ var Firedux = (function () {
     this.bound = {};
     this.actionId = 0;
 
-    function makeFirebaseState(action, state, path, value) {
+    function makeFirebaseState (action, state, path, value) {
       var keyPath = urlToKeyPath(path);
       // const dataPath = 'data.' + keyPath
       var dataPath = ['data'].concat(splitUrl(path));
@@ -70,7 +70,7 @@ var Firedux = (function () {
       return newState;
     }
 
-    function removeFirebaseState(action, state, path) {
+    function removeFirebaseState (action, state, path) {
       var split = splitUrl(path);
       var dataSplit = ['data'].concat(split);
 
@@ -134,7 +134,7 @@ var Firedux = (function () {
     };
 
     this.actions = {
-      init: function init() {
+      init: function init () {
         return function (dispatch) {
           that.token = localStorage.getItem('FIREBASE_TOKEN');
           if (that.token) {
@@ -154,11 +154,11 @@ var Firedux = (function () {
           });
         };
       },
-      login: function login(credentials) {
+      login: function login (credentials) {
         return function (dispatch) {
           dispatch({ type: 'FIREBASE_LOGIN_ATTEMPT' });
 
-          var handler = function handler(error, authData) {
+          var handler = function handler (error, authData) {
             // TODO: Error handling.
             debug('FB AUTH', error, authData);
             if (error) {
@@ -183,7 +183,7 @@ var Firedux = (function () {
           }
         };
       },
-      logout: function logout() {
+      logout: function logout () {
         return function (dispatch) {
           dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
           that.ref.unauth();
@@ -196,12 +196,12 @@ var Firedux = (function () {
 
   _createClass(Firedux, [{
     key: 'cleanValue',
-    value: function cleanValue(value) {
+    value: function cleanValue (value) {
       return _lodash2.default.isObject(value) ? _lodash2.default.omit(value, this.omit) : value;
     }
   }, {
     key: 'bind',
-    value: function bind(dispatch, path) {
+    value: function bind (dispatch, path) {
       if (this.bound[path]) {
         // debug('already bound', path)
         return false;
@@ -221,7 +221,7 @@ var Firedux = (function () {
     }
   }, {
     key: 'get',
-    value: function get(dispatch, path, onComplete) {
+    value: function get (dispatch, path, onComplete) {
       var _this = this;
 
       return new Promise(function (resolve) {
@@ -244,7 +244,7 @@ var Firedux = (function () {
     }
   }, {
     key: 'set',
-    value: function set(dispatch, path, value, onComplete) {
+    value: function set (dispatch, path, value, onComplete) {
       var _this2 = this;
 
       return new Promise(function (resolve, reject) {
@@ -270,7 +270,7 @@ var Firedux = (function () {
     }
   }, {
     key: 'update',
-    value: function update(dispatch, path, value, onComplete) {
+    value: function update (dispatch, path, value, onComplete) {
       var _this3 = this;
 
       return new Promise(function (resolve, reject) {
@@ -296,7 +296,7 @@ var Firedux = (function () {
     }
   }, {
     key: 'remove',
-    value: function remove(dispatch, path, onComplete) {
+    value: function remove (dispatch, path, onComplete) {
       var _this4 = this;
 
       return new Promise(function (resolve, reject) {
@@ -314,7 +314,7 @@ var Firedux = (function () {
           type: 'FIREBASE_REMOVE',
           path: path,
           // TODO: How to access state for cleaner rollback?
-          setValue: function setValue(v) {
+          setValue: function setValue (v) {
             return value = v;
           }
         });
@@ -333,7 +333,7 @@ var Firedux = (function () {
     }
   }, {
     key: 'push',
-    value: function push(dispatch, toPath, value, onId, onComplete) {
+    value: function push (dispatch, toPath, value, onId, onComplete) {
       var that = this;
       var newValue = this.cleanValue(value);
 
