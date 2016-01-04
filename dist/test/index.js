@@ -19455,42 +19455,45 @@ var _assert2 = _interopRequireDefault(_assert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var firedux = new _src2.default({
-  url: 'https://redux-firebase.firebaseio.com/'
-}); /* eslint-env mocha */
-// import { it, before, after, beforeEach, afterEach } from 'arrow-mocha/es5'
-
-var appReducer = function appReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  return state;
-};
-
-var reducer = (0, _redux.combineReducers)({
-  app: appReducer,
-  firedux: firedux.reducer
-});
-
-var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
-
-var store = createStoreWithMiddleware(reducer);
-
-store.subscribe(function () {
-  console.log('STATE:', JSON.stringify(store.getState(), null, '  '));
-});
-
 describe('test', function (t) {
+
+  var firedux = undefined;
+  var reducer = undefined;
+  var store = undefined;
+
+  (0, _es.beforeEach)(function (t) {
+    firedux = new _src2.default({
+      url: 'https://redux-firebase.firebaseio.com/'
+    });
+
+    reducer = (0, _redux.combineReducers)({
+      app: function app() {
+        var s = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        return s;
+      },
+      firedux: firedux.reducer
+    });
+
+    store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(reducer);
+  });
+
   (0, _es.it)('should', function (t, done) {
     t.timeout(10000);
+
+    store.subscribe(function () {
+      var state = store.getState();
+      console.log('STATE:', JSON.stringify(state, null, '  '));
+      _assert2.default.equal(state.firedux.data.test, true);
+    });
+
     firedux.set(store.dispatch, 'test', true).then(function () {
       return firedux.get(store.dispatch, 'test');
     }, done).then(function (result) {
-      console.log('DONE');
       _assert2.default.equal(result.snapshot.val(), true);
       done();
     }, done).catch(done);
   });
-});
+}); /* eslint-env mocha */
+// import { it, before, after, beforeEach, afterEach } from 'arrow-mocha/es5'
 
 },{"../src":109,"arrow-mocha/es5":1,"assert":2,"redux":84,"redux-thunk":82}]},{},[110]);
