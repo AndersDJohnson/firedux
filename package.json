@@ -1,6 +1,6 @@
 {
   "name": "firedux",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Firebase + Redux for ReactJS",
   "repository": "AndersDJohnson/firedux",
   "main": "dist/index.js",
