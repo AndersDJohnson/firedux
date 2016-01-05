@@ -157,6 +157,7 @@ export default class Firedux {
           that.ref.unauth()
           that.auth = null
           that.authError = null
+          dispatch({type: 'FIREBASE_LOGOUT'})
         }
       }
     }
