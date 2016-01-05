@@ -20,7 +20,7 @@ describe('test', t => {
 
     reducer = combineReducers({
       app: (s = {}) => s,
-      firedux: firedux.reducer
+      firedux: firedux.reducer()
     })
 
     store = applyMiddleware(

@@ -31,7 +31,7 @@ const firedux = new Firedux({
 
 const reducer = combineReducers({
   app: (s = {}) => s,
-  firedux: firedux.reducer
+  firedux: firedux.reducer()
 })
 
 const store = applyMiddleware(

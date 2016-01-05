@@ -62,42 +62,44 @@ export default class Firedux {
       return newState
     }
 
-    this.reducer = function (state = initialState, action) {
-      debug('FIREBASE ACTION', action.type, action)
-      switch (action.type) {
-        case 'FIREBASE_GET':
-        case 'FIREBASE_WATCH':
-          return makeFirebaseState(action, state, action.path, action.snapshot.val())
-        case 'FIREBASE_SET':
-        case 'FIREBASE_UPDATE':
-        case 'FIREBASE_PUSH':
-          return makeFirebaseState(action, state, action.path, action.value)
-        case 'FIREBASE_REMOVE':
-          return removeFirebaseState(action, state, action.path)
-        case 'FIREBASE_SET_RESPONSE':
-        case 'FIREBASE_UPDATE_RESPONSE':
-        case 'FIREBASE_REMOVE_RESPONSE':
-          // TODO: Error handling, at per-path level, somehow async without clobber, maybe queues?
-          if (action.error) {
-            console.error(action.error)
-            // restore state
+    this.reducer = function reducer () {
+      return function (state = initialState, action) {
+        debug('FIREBASE ACTION', action.type, action)
+        switch (action.type) {
+          case 'FIREBASE_GET':
+          case 'FIREBASE_WATCH':
+            return makeFirebaseState(action, state, action.path, action.snapshot.val())
+          case 'FIREBASE_SET':
+          case 'FIREBASE_UPDATE':
+          case 'FIREBASE_PUSH':
             return makeFirebaseState(action, state, action.path, action.value)
-          }
-          return state
-        case 'FIREBASE_PUSH_RESPONSE':
-          if (action.error) {
-            // return removeFirebaseState(action, state, action.path)
-          }
-          return state
-        case 'FIREBASE_LOGIN':
-        case 'FIREBASE_LOGOUT':
-        case 'FIREBASE_LOGIN_ERROR':
-          return updeep({
-            auth: action.auth,
-            authError: action.error
-          }, state)
-        default:
-          return state
+          case 'FIREBASE_REMOVE':
+            return removeFirebaseState(action, state, action.path)
+          case 'FIREBASE_SET_RESPONSE':
+          case 'FIREBASE_UPDATE_RESPONSE':
+          case 'FIREBASE_REMOVE_RESPONSE':
+            // TODO: Error handling, at per-path level, somehow async without clobber, maybe queues?
+            if (action.error) {
+              console.error(action.error)
+              // restore state
+              return makeFirebaseState(action, state, action.path, action.value)
+            }
+            return state
+          case 'FIREBASE_PUSH_RESPONSE':
+            if (action.error) {
+              // return removeFirebaseState(action, state, action.path)
+            }
+            return state
+          case 'FIREBASE_LOGIN':
+          case 'FIREBASE_LOGOUT':
+          case 'FIREBASE_LOGIN_ERROR':
+            return updeep({
+              auth: action.auth,
+              authError: action.error
+            }, state)
+          default:
+            return state
+        }
       }
     }
 
