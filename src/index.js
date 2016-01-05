@@ -202,7 +202,7 @@ export default class Firedux {
           snapshot: snapshot
         })
         if (onComplete) onComplete(snapshot)
-        else resolve({snapshot: snapshot})
+        resolve({snapshot: snapshot})
       })
     })
   }
