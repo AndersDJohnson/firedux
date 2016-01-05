@@ -49,7 +49,7 @@ store.subscribe(() => {
   // Lazy loading
   // e.g. once authorized, get user data:
   if (auth && auth.auth && auth.auth.uid) {
-    firedux.bind(dispatch, `users/${auth.auth.uid}`)
+    firedux.watch(dispatch, `users/${auth.auth.uid}`)
   }
 })
 
