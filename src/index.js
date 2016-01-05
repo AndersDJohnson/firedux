@@ -103,71 +103,76 @@ export default class Firedux {
       }
     }
 
-    this.actions = {
-      init: function () {
-        return function (dispatch) {
-          that.token = localStorage.getItem('FIREBASE_TOKEN')
-          if (that.token) {
-            dispatch(that.actions.login({
-              token: that.token
-            }))
-          }
-
-          // listen for auth changes
-          that.ref.onAuth(function (authData) {
-            debug('FB AUTH DATA', authData)
-            if (!authData) {
-              localStorage.removeItem('FIREBASE_TOKEN')
-              that.authData = null
-              dispatch({type: 'FIREBASE_LOGOUT'})
-            }
-          })
-        }
-      },
-      login: function (credentials) {
-        return function (dispatch) {
-          dispatch({type: 'FIREBASE_LOGIN_ATTEMPT'})
-
-          const handler = function (error, authData) {
-            // TODO: Error handling.
-            debug('FB AUTH', error, authData)
-            if (error) {
-              console.error('FB AUTH ERROR', error, authData)
-              dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
-              return
-            }
-            localStorage.setItem('FIREBASE_TOKEN', authData.token)
-            that.authData = authData
-            dispatch({type: 'FIREBASE_LOGIN', authData: authData, error: error})
-          }
-
-          try {
-            if (credentials.token) {
-              that.ref.authWithCustomToken(that.token, handler)
-            } else {
-              that.ref.authWithPassword(credentials, handler)
-            }
-          } catch (error) {
-            console.error('FB AUTH ERROR', error)
-            dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
-          }
-        }
-      },
-      logout: function () {
-        return function (dispatch) {
-          dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
-          that.ref.unauth()
-          that.authData = null
-          that.authError = null
-          dispatch({type: 'FIREBASE_LOGOUT'})
-        }
-      }
-    }
-
     return this
   }
   cleanValue (value) {
     return _.isObject(value) ? _.omit(value, this.omit) : value
+  }
+  init (dispatch) {
+    const that = this
+    return new Promise((resolve, reject) => {
+      this.token = localStorage.getItem('FIREBASE_TOKEN')
+      if (this.token) {
+        resolve(this.login(dispatch, {
+          token: this.token
+        }))
+      }
+
+      // listen for auth changes
+      this.ref.onAuth(function (authData) {
+        debug('FB AUTH DATA', authData)
+        if (!authData) {
+          localStorage.removeItem('FIREBASE_TOKEN')
+          that.authData = null
+          dispatch({type: 'FIREBASE_LOGOUT'})
+          reject()
+        }
+        resolve(authData)
+      })
+    })
+  }
+  login (dispatch, credentials) {
+    const that = this
+    return new Promise((resolve, reject) => {
+      dispatch({type: 'FIREBASE_LOGIN_ATTEMPT'})
+
+      const handler = function (error, authData) {
+        // TODO: Error handling.
+        debug('FB AUTH', error, authData)
+        if (error) {
+          console.error('FB AUTH ERROR', error, authData)
+          dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
+          reject(error)
+          return
+        }
+        localStorage.setItem('FIREBASE_TOKEN', authData.token)
+        that.authData = authData
+        dispatch({type: 'FIREBASE_LOGIN', authData: authData, error: error})
+        resolve(authData)
+      }
+
+      try {
+        if (credentials.token) {
+          this.ref.authWithCustomToken(this.token, handler)
+        } else {
+          this.ref.authWithPassword(credentials, handler)
+        }
+      } catch (error) {
+        console.error('FB AUTH ERROR', error)
+        dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
+        reject(error)
+      }
+    })
+  }
+  logout (dispatch) {
+    return new Promise((resolve, reject) => {
+      dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
+      this.ref.unauth()
+      this.authData = null
+      this.authError = null
+      dispatch({type: 'FIREBASE_LOGOUT'})
+      resolve()
+    })
   }
   watch (dispatch, path, onComplete) {
     return new Promise((resolve) => {
