@@ -308,7 +308,7 @@ export default class Firedux {
       })
       path = push.toString().replace(that.url, '')
       newId = _.last(path.split('/'))
-      onId(newId)
+      if (onId) onId(newId)
 
       // optimism
       dispatch({
