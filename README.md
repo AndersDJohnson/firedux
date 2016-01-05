@@ -25,6 +25,10 @@ You'll need to configure `redux-thunk` on your Redux store.
 Pending further documentation, see example usage in `test/index.js`.
 
 ```js
+import Firedux from 'firedux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import thunk from 'redux-thunk'
+
 const firedux = new Firedux({
   url: 'https://redux-firebase.firebaseio.com/'
 })
