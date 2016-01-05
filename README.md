@@ -43,7 +43,7 @@ const { dispatch } = store
 // Later, you can subscribe to state.
 store.subscribe(() => {
   const state = store.getState()
-  const { data, auth } = state.firebase
+  const { data, auth } = state.firedux
   console.log('Test data from Firebase:', data.test)
 
   // Lazy loading
