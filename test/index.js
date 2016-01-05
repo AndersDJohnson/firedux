@@ -8,7 +8,6 @@ import thunk from 'redux-thunk'
 import assert from 'assert'
 
 describe('test', t => {
-
   let firedux
   let reducer
   let store
