@@ -19116,7 +19116,7 @@ var Firedux = (function () {
     this.token = null;
     this.getting = {};
     this.removing = {};
-    this.bound = {};
+    this.watching = {};
     this.actionId = 0;
 
     function makeFirebaseState(action, state, path, value) {
@@ -19139,11 +19139,7 @@ var Firedux = (function () {
 
       var id = split.pop();
       var parentPath = split.join('.');
-      // var binding = that.bound[path]
-      // that.ref.child(path).off('value', binding
-      // that.ref.child(path).off('value')
       that.ref.child(path).off();
-      // delete that.bound[path]
       var keyPath = parentPath;
       var dataPath = 'data.' + keyPath;
       var newState = _updeep2.default.updateIn(dataPath, _updeep2.default.omit(id), state);
@@ -19157,7 +19153,7 @@ var Firedux = (function () {
       debug('FIREBASE ACTION', action.type, action);
       switch (action.type) {
         case 'FIREBASE_GET':
-        case 'FIREBASE_BIND':
+        case 'FIREBASE_WATCH':
           return makeFirebaseState(action, state, action.path, action.snapshot.val());
         case 'FIREBASE_SET':
         case 'FIREBASE_UPDATE':
@@ -19246,6 +19242,9 @@ var Firedux = (function () {
         return function (dispatch) {
           dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
           that.ref.unauth();
+          that.auth = null;
+          that.authError = null;
+          dispatch({ type: 'FIREBASE_LOGOUT' });
         };
       }
     };
@@ -19259,55 +19258,63 @@ var Firedux = (function () {
       return _lodash2.default.isObject(value) ? _lodash2.default.omit(value, this.omit) : value;
     }
   }, {
-    key: 'bind',
-    value: function bind(dispatch, path) {
-      if (this.bound[path]) {
-        // debug('already bound', path)
-        return false;
-      }
-      this.bound[path] = true;
-      debug('DISPATCH BOUND', path);
-      this.ref.child(path).on('value', function (snapshot) {
-        debug('GOT BOUND VALUE', path, snapshot.val());
-        // TODO: Make binds smart enough to ignore pending updates, e.g. not replace
-        //  a path that has been removed locally but is queued for remote delete?
-        dispatch({
-          type: 'FIREBASE_BIND',
-          path: path,
-          snapshot: snapshot
+    key: 'watch',
+    value: function watch(dispatch, path, onComplete) {
+      var _this = this;
+
+      return new Promise(function (resolve) {
+        if (_this.watching[path]) {
+          // debug('already watching', path)
+          return false;
+        }
+        _this.watching[path] = true;
+        debug('DISPATCH WATCH', path);
+        _this.ref.child(path).on('value', function (snapshot) {
+          debug('GOT WATCHED VALUE', path, snapshot.val());
+          // TODO: Make watches smart enough to ignore pending updates, e.g. not replace
+          //  a path that has been removed locally but is queued for remote delete?
+          dispatch({
+            type: 'FIREBASE_WATCH',
+            path: path,
+            snapshot: snapshot
+          });
+
+          if (onComplete) onComplete(snapshot);
+          resolve({ snapshot: snapshot });
         });
       });
     }
   }, {
     key: 'get',
     value: function get(dispatch, path, onComplete) {
-      var _this = this;
+      var _this2 = this;
 
       return new Promise(function (resolve) {
-        if (_this.getting[path]) {
+        if (_this2.getting[path]) {
           debug('already getting', path);
           return { type: 'FIREBASE_GET_PENDING' };
         }
-        _this.getting[path] = true;
+        _this2.getting[path] = true;
         debug('FB GET', path);
-        _this.ref.child(path).once('value', function (snapshot) {
-          _this.getting[path] = false;
+        _this2.ref.child(path).once('value', function (snapshot) {
+          _this2.getting[path] = false;
           dispatch({
             type: 'FIREBASE_GET',
             path: path,
             snapshot: snapshot
           });
-          if (onComplete) onComplete(snapshot);else resolve({ snapshot: snapshot });
+          if (onComplete) onComplete(snapshot);
+          resolve({ snapshot: snapshot });
         });
       });
     }
   }, {
     key: 'set',
     value: function set(dispatch, path, value, onComplete) {
-      var _this2 = this;
+      var _this3 = this;
 
       return new Promise(function (resolve, reject) {
-        var newValue = _this2.cleanValue(value);
+        var newValue = _this3.cleanValue(value);
         debug('FB SET', path, newValue);
         // optimism
         dispatch({
@@ -19315,7 +19322,7 @@ var Firedux = (function () {
           path: path,
           value: newValue
         });
-        _this2.ref.child(path).set(newValue, function (error) {
+        _this3.ref.child(path).set(newValue, function (error) {
           dispatch({
             type: 'FIREBASE_SET_RESPONSE',
             path: path,
@@ -19330,10 +19337,10 @@ var Firedux = (function () {
   }, {
     key: 'update',
     value: function update(dispatch, path, value, onComplete) {
-      var _this3 = this;
+      var _this4 = this;
 
       return new Promise(function (resolve, reject) {
-        var newValue = _this3.cleanValue(value);
+        var newValue = _this4.cleanValue(value);
         debug('FB UPDATE', path, newValue);
         // optimism
         dispatch({
@@ -19341,7 +19348,7 @@ var Firedux = (function () {
           path: path,
           value: newValue
         });
-        _this3.ref.child(path).update(newValue, function (error) {
+        _this4.ref.child(path).update(newValue, function (error) {
           dispatch({
             type: 'FIREBASE_UPDATE_RESPONSE',
             path: path,
@@ -19356,14 +19363,14 @@ var Firedux = (function () {
   }, {
     key: 'remove',
     value: function remove(dispatch, path, onComplete) {
-      var _this4 = this;
+      var _this5 = this;
 
       return new Promise(function (resolve, reject) {
-        if (_this4.removing[path]) {
+        if (_this5.removing[path]) {
           debug('already removing', path);
           return { type: 'FIREBASE_REMOVE_PENDING' };
         }
-        _this4.removing[path] = true;
+        _this5.removing[path] = true;
         debug('FB remove', path);
 
         var value = undefined;
@@ -19377,8 +19384,8 @@ var Firedux = (function () {
             return value = v;
           }
         });
-        _this4.ref.child(path).remove(function (error) {
-          _this4.removing[path] = false;
+        _this5.ref.child(path).remove(function (error) {
+          _this5.removing[path] = false;
           dispatch({
             type: 'FIREBASE_REMOVE_RESPONSE',
             path: path,
@@ -19415,7 +19422,7 @@ var Firedux = (function () {
         });
         path = push.toString().replace(that.url, '');
         newId = _lodash2.default.last(path.split('/'));
-        onId(newId);
+        if (onId) onId(newId);
 
         // optimism
         dispatch({
