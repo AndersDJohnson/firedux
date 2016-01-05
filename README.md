@@ -1,6 +1,9 @@
 # firedux
 > Firebase + Redux for ReactJS
 
+[![npm](https://img.shields.io/npm/v/firedux.svg)](https://www.npmjs.com/package/firedux)
+[![Travis](https://img.shields.io/travis/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)
+
 Wraps the [Firebase JavaScript API](https://www.firebase.com/docs/web/api/)
 to dispatch Redux actions
 that optimisically & immediately read/write to an in-memory
