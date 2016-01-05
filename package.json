@@ -13,6 +13,12 @@
   },
   "author": "Anders D. Johnson (https://github.com/adjohnson916)",
   "license": "MIT",
+  "keywords": [
+    "redux",
+    "firebase",
+    "react",
+    "flux"
+  ],
   "devDependencies": {
     "arrow-mocha": "^1.0.1",
     "babel-cli": "^6.3.17",
