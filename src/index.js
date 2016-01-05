@@ -32,7 +32,7 @@ export default class Firedux {
     this.token = null
     this.getting = {}
     this.removing = {}
-    this.bound = {}
+    this.watching = {}
     this.actionId = 0
 
     function makeFirebaseState (action, state, path, value) {
@@ -55,11 +55,7 @@ export default class Firedux {
 
       const id = split.pop()
       const parentPath = split.join('.')
-      // var binding = that.bound[path]
-      // that.ref.child(path).off('value', binding
-      // that.ref.child(path).off('value')
       that.ref.child(path).off()
-      // delete that.bound[path]
       const keyPath = parentPath
       const dataPath = 'data.' + keyPath
       const newState = updeep.updateIn(dataPath, updeep.omit(id), state)
@@ -70,7 +66,7 @@ export default class Firedux {
       debug('FIREBASE ACTION', action.type, action)
       switch (action.type) {
         case 'FIREBASE_GET':
-        case 'FIREBASE_BIND':
+        case 'FIREBASE_WATCH':
           return makeFirebaseState(action, state, action.path, action.snapshot.val())
         case 'FIREBASE_SET':
         case 'FIREBASE_UPDATE':
@@ -168,21 +164,26 @@ export default class Firedux {
   cleanValue (value) {
     return _.isObject(value) ? _.omit(value, this.omit) : value
   }
-  bind (dispatch, path) {
-    if (this.bound[path]) {
-      // debug('already bound', path)
-      return false
-    }
-    this.bound[path] = true
-    debug('DISPATCH BOUND', path)
-    this.ref.child(path).on('value', snapshot => {
-      debug('GOT BOUND VALUE', path, snapshot.val())
-      // TODO: Make binds smart enough to ignore pending updates, e.g. not replace
-      //  a path that has been removed locally but is queued for remote delete?
-      dispatch({
-        type: 'FIREBASE_BIND',
-        path: path,
-        snapshot: snapshot
+  watch (dispatch, path, onComplete) {
+    return new Promise((resolve) => {
+      if (this.watching[path]) {
+        // debug('already watching', path)
+        return false
+      }
+      this.watching[path] = true
+      debug('DISPATCH WATCH', path)
+      this.ref.child(path).on('value', snapshot => {
+        debug('GOT WATCHED VALUE', path, snapshot.val())
+        // TODO: Make watches smart enough to ignore pending updates, e.g. not replace
+        //  a path that has been removed locally but is queued for remote delete?
+        dispatch({
+          type: 'FIREBASE_WATCH',
+          path: path,
+          snapshot: snapshot
+        })
+
+        if (onComplete) onComplete(snapshot)
+        resolve({snapshot: snapshot})
       })
     })
   }
