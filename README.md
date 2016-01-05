@@ -18,7 +18,7 @@ Also supports authentication methods and actions.
 npm i --save firedux
 ```
 
-You'll need to configure `redux-thunk` on your Redux store. 
+You'll need to configure `redux-thunk` on your Redux store.
 
 ## Use
 
@@ -43,19 +43,22 @@ const { dispatch } = store
 // Later, you can subscribe to state.
 store.subscribe(() => {
   const state = store.getState()
-  console.log('Test data from Firebase:', state.firedux.data.test)
-  
+  const { data, auth } = state.firebase
+  console.log('Test data from Firebase:', data.test)
+
   // Lazy loading
   // e.g. once authorized, get user data:
-  const auth = state.firedux.auth
   if (auth && auth.auth && auth.auth.uid) {
-    firedux.get(dispatch, `users/${auth.auth.uid}`)
+    const { uid } = auth.auth
+    if (uid && !data.users && !data.users[uid]) {
+      firedux.get(dispatch, `users/${uid}`)
+    }
   }
 })
 
 // Watch a path:
-firedux.watch(dispatch, 'users/joe') 
-.then(({snapshot}) => {}) 
+firedux.watch(dispatch, 'users/joe')
+.then(({snapshot}) => {})
 // state.firedux.data.users.joe
 // Note: this promise will only return on the first value, but it'll keep syncing.
 
