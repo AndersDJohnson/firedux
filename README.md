@@ -43,13 +43,13 @@ const { dispatch } = store
 // Later, you can subscribe to state.
 store.subscribe(() => {
   const state = store.getState()
-  const { data, auth } = state.firedux
+  const { data, authData } = state.firedux
   console.log('Test data from Firebase:', data.test)
 
   // Lazy loading
   // e.g. once authorized, get user data:
-  if (auth && auth.auth && auth.auth.uid) {
-    firedux.watch(dispatch, `users/${auth.auth.uid}`)
+  if (authData && authData.auth && authData.auth.uid) {
+    firedux.watch(dispatch, `users/${authData.auth.uid}`)
   }
 })
 
