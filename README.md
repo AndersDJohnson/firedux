@@ -89,7 +89,7 @@ firedux.remove(dispatch, 'users/joe'})
 // Init
 // Call this when your app starts, to get existing session, and listen for auth changes
 dispatch(firedux.actions.init())
-// state.firedux.auth == { auth: { uid: '123' } }
+// state.firedux.auth = { auth: { uid: '123' } }
 //  etc. `authData` per https://www.firebase.com/docs/web/api/firebase/authwithcustomtoken.html
 // or state.firedux.authError = Error
 
