@@ -66,7 +66,7 @@ firedux.set(dispatch, 'test', true)
 // state.firedux.data.test = true
 
 // Update (merging set):
-firedux.set(dispatch, 'users/joe', { job: 'developer' })
+firedux.update(dispatch, 'users/joe', { job: 'developer' })
 .then(({value}) => {})
 // state.firedux.data.users.joe = { name: 'Joe', job: 'developer' }
 
