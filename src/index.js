@@ -94,7 +94,7 @@ export default class Firedux {
           case 'FIREBASE_LOGOUT':
           case 'FIREBASE_LOGIN_ERROR':
             return updeep({
-              auth: action.auth,
+              authData: action.authData,
               authError: action.error
             }, state)
           default:
@@ -118,7 +118,7 @@ export default class Firedux {
             debug('FB AUTH DATA', authData)
             if (!authData) {
               localStorage.removeItem('FIREBASE_TOKEN')
-              that.auth = null
+              that.authData = null
               dispatch({type: 'FIREBASE_LOGOUT'})
             }
           })
@@ -137,8 +137,8 @@ export default class Firedux {
               return
             }
             localStorage.setItem('FIREBASE_TOKEN', authData.token)
-            that.auth = authData
-            dispatch({type: 'FIREBASE_LOGIN', auth: authData, error: error})
+            that.authData = authData
+            dispatch({type: 'FIREBASE_LOGIN', authData: authData, error: error})
           }
 
           try {
@@ -157,7 +157,7 @@ export default class Firedux {
         return function (dispatch) {
           dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
           that.ref.unauth()
-          that.auth = null
+          that.authData = null
           that.authError = null
           dispatch({type: 'FIREBASE_LOGOUT'})
         }
