@@ -303,7 +303,8 @@ export default class Firedux {
       debug('FB PUSH', toPath, newValue)
 
       let path, newId
-      const push = that.ref.child(toPath).push(newValue, (error) => {
+      const ref = that.ref.child(toPath)
+      const pushRef = ref.push(newValue, (error) => {
         dispatch({
           type: 'FIREBASE_PUSH_RESPONSE',
           path: path,
@@ -316,8 +317,8 @@ export default class Firedux {
         if (error) reject(error)
         else resolve(newId)
       })
-      path = push.toString().replace(that.url, '')
-      newId = _.last(path.split('/'))
+      path = pushRef.toString().replace(that.url, '')
+      newId = pushRef.key()
       if (onId) onId(newId)
 
       // optimism
@@ -326,7 +327,9 @@ export default class Firedux {
         path: path,
         toPath: toPath,
         newId: newId,
-        value: newValue
+        value: newValue,
+        ref: pushRef,
+        toRef: ref
       })
     })
   }
