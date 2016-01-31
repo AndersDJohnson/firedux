@@ -19118,6 +19118,7 @@ var Firedux = (function () {
     this.removing = {};
     this.watching = {};
     this.actionId = 0;
+    this.dispatch = null;
 
     function makeFirebaseState(action, state, path, value) {
       var keyPath = urlToKeyPath(path);
@@ -19200,8 +19201,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'init',
-    value: function init(dispatch) {
+    value: function init() {
       var _this = this;
+
+      var dispatch = this.dispatch;
 
       var that = this;
       return new Promise(function (resolve, reject) {
@@ -19227,8 +19230,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'login',
-    value: function login(dispatch, credentials) {
+    value: function login(credentials) {
       var _this2 = this;
+
+      var dispatch = this.dispatch;
 
       var that = this;
       return new Promise(function (resolve, reject) {
@@ -19264,8 +19269,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'logout',
-    value: function logout(dispatch) {
+    value: function logout() {
       var _this3 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve, reject) {
         dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
@@ -19278,8 +19285,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'watch',
-    value: function watch(dispatch, path, onComplete) {
+    value: function watch(path, onComplete) {
       var _this4 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve) {
         if (_this4.watching[path]) {
@@ -19305,8 +19314,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'get',
-    value: function get(dispatch, path, onComplete) {
+    value: function get(path, onComplete) {
       var _this5 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve) {
         if (_this5.getting[path]) {
@@ -19329,8 +19340,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'set',
-    value: function set(dispatch, path, value, onComplete) {
+    value: function set(path, value, onComplete) {
       var _this6 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve, reject) {
         var newValue = _this6.cleanValue(value);
@@ -19355,8 +19368,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'update',
-    value: function update(dispatch, path, value, onComplete) {
+    value: function update(path, value, onComplete) {
       var _this7 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve, reject) {
         var newValue = _this7.cleanValue(value);
@@ -19381,8 +19396,10 @@ var Firedux = (function () {
     }
   }, {
     key: 'remove',
-    value: function remove(dispatch, path, onComplete) {
+    value: function remove(path, onComplete) {
       var _this8 = this;
+
+      var dispatch = this.dispatch;
 
       return new Promise(function (resolve, reject) {
         if (_this8.removing[path]) {
@@ -19418,7 +19435,9 @@ var Firedux = (function () {
     }
   }, {
     key: 'push',
-    value: function push(dispatch, toPath, value, onId, onComplete) {
+    value: function push(toPath, value, onId, onComplete) {
+      var dispatch = this.dispatch;
+
       var that = this;
       var newValue = this.cleanValue(value);
 
@@ -19503,6 +19522,8 @@ describe('test', function (t) {
     });
 
     store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(reducer);
+
+    firedux.dispatch = store.dispatch;
   });
 
   (0, _es.it)('should', function (t, done) {
@@ -19514,8 +19535,8 @@ describe('test', function (t) {
       _assert2.default.equal(state.firedux.data.test, true);
     });
 
-    firedux.set(store.dispatch, 'test', true).then(function () {
-      return firedux.get(store.dispatch, 'test');
+    firedux.set('test', true).then(function () {
+      return firedux.get('test');
     }, done).then(function (result) {
       _assert2.default.equal(result.snapshot.val(), true);
       done();

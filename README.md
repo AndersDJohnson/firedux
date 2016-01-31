@@ -42,7 +42,8 @@ const store = applyMiddleware(
   thunk
 )(createStore)(reducer)
 
-const { dispatch } = store
+// Set the dispatch function
+firedux.dispatch = store.dispatch
 
 // Later, you can subscribe to state.
 store.subscribe(() => {
@@ -53,58 +54,58 @@ store.subscribe(() => {
   // Lazy loading
   // e.g. once authorized, get user data:
   if (authData && authData.auth && authData.auth.uid) {
-    firedux.watch(dispatch, `users/${authData.auth.uid}`)
+    firedux.watch(`users/${authData.auth.uid}`)
   }
 })
 
 // Watch a path:
-firedux.watch(dispatch, 'users/joe')
+firedux.watch('users/joe')
 .then(({snapshot}) => {})
 // state.firedux.data.users.joe
 // Note: this promise will only resolve on the first value, but it'll keep syncing on all value updates.
 
 // Get:
-firedux.get(dispatch, 'posts/123')
+firedux.get('posts/123')
 .then(({snapshot}) => {})
 // state.firedux.data.posts['123']
 
 // Set:
-firedux.set(dispatch, 'test', true)
+firedux.set('test', true)
 .then(({value}) => {})
 // state.firedux.data.test = true
 
 // Update (merging set):
-firedux.update(dispatch, 'users/joe', { job: 'developer' })
+firedux.update('users/joe', { job: 'developer' })
 .then(({value}) => {})
 // state.firedux.data.users.joe = { name: 'Joe', job: 'developer' }
 
 // Push (to a collection):
-firedux.push(dispatch, 'users', { name: 'Jane' }, (id) => {
+firedux.push('users', { name: 'Jane' }, (id) => {
   // The ID is generated locally and immediately - you can get it before the push with this callback.
 })
 .then((id) => {})
 
 // Remove:
-firedux.remove(dispatch, 'users/joe'})
+firedux.remove('users/joe'})
 .then(() => {})
 
 // Auth
 
 // Init
 // Call this when your app starts, to get existing session, and listen for auth changes
-firedux.init(dispatch)
+firedux.init()
 // state.firedux.auth = { auth: { uid: '123' } }
 //  etc. `authData` per https://www.firebase.com/docs/web/api/firebase/authwithcustomtoken.html
 // or state.firedux.authError = Error
 
 // Login
-firedux.login(dispatch, {
+firedux.login({
   email: 'user@example.com',
   password: '123'
 }))
 // state.firedux.auth or state.firedux.authError
 
 // Logout
-firedux.logout(dispatch)
+firedux.logout()
 // state.firedux.auth = null
 ```

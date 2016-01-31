@@ -37,6 +37,8 @@ describe('test', function (t) {
     });
 
     store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(reducer);
+
+    firedux.dispatch = store.dispatch;
   });
 
   (0, _es.it)('should', function (t, done) {
@@ -48,8 +50,8 @@ describe('test', function (t) {
       _assert2.default.equal(state.firedux.data.test, true);
     });
 
-    firedux.set(store.dispatch, 'test', true).then(function () {
-      return firedux.get(store.dispatch, 'test');
+    firedux.set('test', true).then(function () {
+      return firedux.get('test');
     }, done).then(function (result) {
       _assert2.default.equal(result.snapshot.val(), true);
       done();

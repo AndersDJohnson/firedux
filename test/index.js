@@ -25,6 +25,8 @@ describe('test', t => {
     store = applyMiddleware(
       thunk
     )(createStore)(reducer)
+
+    firedux.dispatch = store.dispatch
   })
 
   it('should', (t, done) => {
@@ -36,9 +38,9 @@ describe('test', t => {
       assert.equal(state.firedux.data.test, true)
     })
 
-    firedux.set(store.dispatch, 'test', true)
+    firedux.set('test', true)
     .then(() => {
-      return firedux.get(store.dispatch, 'test')
+      return firedux.get('test')
     }, done)
     .then((result) => {
       assert.equal(result.snapshot.val(), true)

@@ -34,6 +34,7 @@ export default class Firedux {
     this.removing = {}
     this.watching = {}
     this.actionId = 0
+    this.dispatch = null
 
     function makeFirebaseState (action, state, path, value) {
       const keyPath = urlToKeyPath(path)
@@ -108,7 +109,8 @@ export default class Firedux {
   cleanValue (value) {
     return _.isObject(value) ? _.omit(value, this.omit) : value
   }
-  init (dispatch) {
+  init () {
+    const { dispatch } = this
     const that = this
     return new Promise((resolve, reject) => {
       this.token = localStorage.getItem('FIREBASE_TOKEN')
@@ -131,7 +133,8 @@ export default class Firedux {
       })
     })
   }
-  login (dispatch, credentials) {
+  login (credentials) {
+    const { dispatch } = this
     const that = this
     return new Promise((resolve, reject) => {
       dispatch({type: 'FIREBASE_LOGIN_ATTEMPT'})
@@ -164,7 +167,8 @@ export default class Firedux {
       }
     })
   }
-  logout (dispatch) {
+  logout () {
+    const { dispatch } = this
     return new Promise((resolve, reject) => {
       dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
       this.ref.unauth()
@@ -174,7 +178,8 @@ export default class Firedux {
       resolve()
     })
   }
-  watch (dispatch, path, onComplete) {
+  watch (path, onComplete) {
+    const { dispatch } = this
     return new Promise((resolve) => {
       if (this.watching[path]) {
         // debug('already watching', path)
@@ -197,7 +202,8 @@ export default class Firedux {
       })
     })
   }
-  get (dispatch, path, onComplete) {
+  get (path, onComplete) {
+    const { dispatch } = this
     return new Promise((resolve) => {
       if (this.getting[path]) {
         debug('already getting', path)
@@ -217,7 +223,8 @@ export default class Firedux {
       })
     })
   }
-  set (dispatch, path, value, onComplete) {
+  set (path, value, onComplete) {
+    const { dispatch } = this
     return new Promise((resolve, reject) => {
       const newValue = this.cleanValue(value)
       debug('FB SET', path, newValue)
@@ -240,7 +247,8 @@ export default class Firedux {
       })
     })
   }
-  update (dispatch, path, value, onComplete) {
+  update (path, value, onComplete) {
+    const { dispatch } = this
     return new Promise((resolve, reject) => {
       const newValue = this.cleanValue(value)
       debug('FB UPDATE', path, newValue)
@@ -263,7 +271,8 @@ export default class Firedux {
       })
     })
   }
-  remove (dispatch, path, onComplete) {
+  remove (path, onComplete) {
+    const { dispatch } = this
     return new Promise((resolve, reject) => {
       if (this.removing[path]) {
         debug('already removing', path)
@@ -295,7 +304,8 @@ export default class Firedux {
       })
     })
   }
-  push (dispatch, toPath, value, onId, onComplete) {
+  push (toPath, value, onId, onComplete) {
+    const { dispatch } = this
     const that = this
     const newValue = this.cleanValue(value)
 
