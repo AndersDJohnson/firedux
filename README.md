@@ -113,13 +113,13 @@ firedux.login({
   email: 'user@example.com',
   password: '123'
 }))
-// state.firedux.auth == { auth: { uid: '123' } }
+// state.firedux.authData == { auth: { uid: '123' } }
 //  etc. `authData` per https://www.firebase.com/docs/web/api/firebase/authwithcustomtoken.html
 // or state.firedux.authError == Error
 
 // Logout
 firedux.logout()
-// state.firedux.auth == null
+// state.firedux.authData == null
 
 // To handle some unsupported features, you can get access to the underlying Firebase instance via:
 firedux.ref
