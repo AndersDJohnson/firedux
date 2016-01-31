@@ -34,7 +34,7 @@ const firedux = new Firedux({
   url: 'https://redux-firebase.firebaseio.com/'
 
   // Optional:
-  omit: ['$localState'] // Keys you want to reserve for local use that won't sync with Firebase.
+  omit: ['$localState'] // Properties that you want to reserve for local use and not sync with Firebase.
 })
 
 const reducer = combineReducers({
