@@ -69,7 +69,8 @@ store.subscribe(() => {
 firedux.watch('users/joe')
 .then(({snapshot}) => {})
 // state.firedux.data.users.joe
-// Note: this promise will only resolve on the first value, but it'll keep syncing on all value updates.
+// Note: this promise will only resolve on the first value,
+//  but it'll keep syncing on all value updates.
 
 // Get:
 firedux.get('posts/123')
@@ -79,40 +80,44 @@ firedux.get('posts/123')
 // Set:
 firedux.set('test', true)
 .then(({value}) => {})
-// state.firedux.data.test = true
+// state.firedux.data.test == true
 
 // Update (merging set):
 firedux.update('users/joe', { job: 'developer' })
 .then(({value}) => {})
-// state.firedux.data.users.joe = { name: 'Joe', job: 'developer' }
+// state.firedux.data.users.joe == { name: 'Joe', job: 'developer' }
 
 // Push (to a collection):
 firedux.push('users', { name: 'Jane' }, (id) => {
-  // The ID is generated locally and immediately - you can get it before the push with this callback.
+  // The ID is generated locally immediately,
+  // so you can get it before the push with this callback.
+  // id == '-K95Cjx-caw2uSNsFJiI'
 })
 .then((id) => {})
+// state.firedux.data.users['-K95Cjx-caw2uSNsFJiI'] == { name: 'Jane' }
 
 // Remove:
 firedux.remove('users/joe'})
 .then(() => {})
+// state.firedux.data.users['joe'] == undefined
 
 // Auth
 
 // Init
 // Call this when your app starts, to get existing session, and listen for auth changes.
 firedux.init()
-// state.firedux.auth = { auth: { uid: '123' } }
-//  etc. `authData` per https://www.firebase.com/docs/web/api/firebase/authwithcustomtoken.html
-// or state.firedux.authError = Error
+// See Login state below.
 
 // Login
 firedux.login({
   email: 'user@example.com',
   password: '123'
 }))
-// state.firedux.auth or state.firedux.authError
+// state.firedux.auth == { auth: { uid: '123' } }
+//  etc. `authData` per https://www.firebase.com/docs/web/api/firebase/authwithcustomtoken.html
+// or state.firedux.authError == Error
 
 // Logout
 firedux.logout()
-// state.firedux.auth = null
+// state.firedux.auth == null
 ```
