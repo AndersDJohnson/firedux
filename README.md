@@ -31,7 +31,7 @@ import thunk from 'redux-thunk'
 
 // Create your Firedux instance.
 const firedux = new Firedux({
-  url: 'https://redux-firebase.firebaseio.com/'
+  url: 'https://redux-firebase.firebaseio.com/',
 
   // Optional:
   omit: ['$localState'] // Properties to reserve for local use and not sync with Firebase.
