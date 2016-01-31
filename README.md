@@ -120,4 +120,12 @@ firedux.login({
 // Logout
 firedux.logout()
 // state.firedux.auth == null
+
+// To handle some unsupported features, you can get access to the underlying Firebase instance via:
+firedux.ref
+// e.g. turn off a watch:
+firedux.ref.child('users/joe').off('value')
+// or login with OAuth:
+firedux.ref.authWithOAuthPopup("twitter", (error, authData)  => { /* ... */ })
+
 ```
