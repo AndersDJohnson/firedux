@@ -29,21 +29,25 @@ import Firedux from 'firedux'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 
+// Create your Firedux instance.
 const firedux = new Firedux({
   url: 'https://redux-firebase.firebaseio.com/'
 })
 
 const reducer = combineReducers({
-  app: (s = {}) => s,
   firedux: firedux.reducer()
+  // your other reducers...
 })
 
+// Create store with middleware, including thunk.
 const store = applyMiddleware(
   thunk
+  // your other middleware...
 )(createStore)(reducer)
 
-// Set the dispatch function
+// Set dispatch function from store on your Firedux instance.
 firedux.dispatch = store.dispatch
+
 
 // Later, you can subscribe to state.
 store.subscribe(() => {
