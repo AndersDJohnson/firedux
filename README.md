@@ -22,7 +22,7 @@ You'll need to configure `redux-thunk` on your Redux store.
 
 ## Use
 
-Pending further documentation, see example usage in `test/index.js`.
+Pending further documentation, see example usage below and in `test/index.js`.
 
 ```js
 import Firedux from 'firedux'
