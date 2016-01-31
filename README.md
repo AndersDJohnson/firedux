@@ -61,7 +61,7 @@ store.subscribe(() => {
 firedux.watch(dispatch, 'users/joe')
 .then(({snapshot}) => {})
 // state.firedux.data.users.joe
-// Note: this promise will only return on the first value, but it'll keep syncing.
+// Note: this promise will only resolve on the first value, but it'll keep syncing on all value updates.
 
 // Get:
 firedux.get(dispatch, 'posts/123')
@@ -80,7 +80,7 @@ firedux.update(dispatch, 'users/joe', { job: 'developer' })
 
 // Push (to a collection):
 firedux.push(dispatch, 'users', { name: 'Jane' }, (id) => {
-  // The ID is immediate, so get it before the push with this callback, if you want.
+  // The ID is generated locally and immediately - you can get it before the push with this callback.
 })
 .then((id) => {})
 
