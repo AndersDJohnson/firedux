@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "description": "Firebase + Redux for ReactJS",
   "repository": "adjohnson916/firedux",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "test": "eslint src && mocha --require babel-core/register",
     "build:test": "browserify test/index.js -o dist/test/index.js -t babelify",
