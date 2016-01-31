@@ -32,17 +32,20 @@ import thunk from 'redux-thunk'
 // Create your Firedux instance.
 const firedux = new Firedux({
   url: 'https://redux-firebase.firebaseio.com/'
+
+  // Optional:
+  omit: ['$localState'] // Keys you want to reserve for local use that won't sync with Firebase.
 })
 
 const reducer = combineReducers({
   firedux: firedux.reducer()
-  // your other reducers...
+  // Your other reducers...
 })
 
 // Create store with middleware, including thunk.
 const store = applyMiddleware(
   thunk
-  // your other middleware...
+  // Your other middleware...
 )(createStore)(reducer)
 
 // Set dispatch function from store on your Firedux instance.
