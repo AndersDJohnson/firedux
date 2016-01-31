@@ -126,6 +126,6 @@ firedux.ref
 // e.g. turn off a watch:
 firedux.ref.child('users/joe').off('value')
 // or login with OAuth:
-firedux.ref.authWithOAuthPopup("twitter", (error, authData)  => { /* ... */ })
+firedux.ref.authWithOAuthPopup("twitter", (error, authData) => { /* ... */ })
 
 ```
