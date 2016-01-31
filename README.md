@@ -1,4 +1,4 @@
-# firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)
+# :fire: :hatching_chick: firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)
 
 > Firebase + Redux for ReactJS
 
