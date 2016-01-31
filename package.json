@@ -19,6 +19,9 @@
     "build": "npm ru node && npm ru browser"
   },
   "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
+  "bugs": {
+    "url": "https://github.com/AndersDJohnson/firedux/issues"
+  },
   "license": "MIT",
   "keywords": [
     "redux",
