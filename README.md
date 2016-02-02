@@ -98,7 +98,7 @@ firedux.push('users', { name: 'Jane' }, (id) => {
 // state.firedux.data.users['-K95Cjx-caw2uSNsFJiI'] == { name: 'Jane' }
 
 // Remove:
-firedux.remove('users/joe'})
+firedux.remove('users/joe')
 .then(() => {})
 // state.firedux.data.users['joe'] == undefined
 
