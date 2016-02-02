@@ -128,7 +128,7 @@ firedux.ref
 firedux.ref.child('users/joe').off('value')
 // or login with OAuth:
 firedux.ref.authWithOAuthPopup("twitter", (error, authData) => {
-  store.dispatch({type: 'FIREBASE_LOGIN', error: error, authData: authData})
+  store.dispatch({type: 'FIREBASE_LOGIN', error, authData})
 })
 ```
 
