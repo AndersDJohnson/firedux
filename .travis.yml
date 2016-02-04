@@ -1,8 +1,12 @@
+after_success: ./.travis/after_success.sh
 language: node_js
 node_js:
-  - "node"
-  - "iojs"
-  - "4.1"
-  - "4.0"
-  - "0.12"
+- node
+- iojs
+- '4.1'
+- '4.0'
+- '0.12'
 sudo: false
+env:
+  global:
+    secure: dGIYQW3nycnipvsltb0d06dY3Pl9BHze6jsAzp/YvU5MtknO+FXHAyuinppRRr5DFhOunk3XSJdVYVmTLMtaaD3LAga/bLov+Lhovt7rFNwfcth8iILE6m/gkt41KUjHXIFk5LD/aOUwauordJkKdhNvtOAbp8DYmLfovQFTSSdz7yWCrTn6WLxFEA9hkbvZYiQKKzpjdykrJ9T6P9U1UzNo5e9Z06xkbrNIs9zIffV46W52u7b8nGz62JiiT+0I7NDCL+eQdPkYv02EIFHmS4cCca4L7yjSG+anvvRjVvLgdCDqNSZEvCOg2R5+wR5R3qRYz3It9TbH3PSD46iDS2FXX+3EX81E5bb6fPzZQPFelw6qGvONODZ3E4j6QonpT1gHNzzcUSvCcYvMy17y7wN+Fb/hzuvsyQ2TorQvtLgsIu523xZBSTyCds1+ZVfUG8JlHqWINOjittLvD4U2uXYTM2Sc7Rd3mQYKsx9nkM4CGhVdapL9jZr53KxViSNEq+2O7MTzmqEaUiGiW/nR/6zfKLgqjiIcxrUBv652zhVQ/RT0c5nd2uAxRKAC7UaB04+ypVaOgYj3H+thZVy7C5pf6cMT/wh38s0/hQHsTN60k5STI/7G8rKhIsRk+UyuQ/Q1T549q8KsOgNCAD+pvm39yGsNdGT5l40NHvEs9Ac=
