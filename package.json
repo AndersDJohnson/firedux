@@ -6,6 +6,7 @@
   "main": "dist/src/index.js",
   "browser": "dist/src/index.browser.js",
   "scripts": {
+    "verb": "verb",
     "test": "eslint src && mocha --require babel-core/register",
     "node:test": "babel test/index.js -o dist/test/index.js",
     "node:test:watch": "babel test/index.js -o dist/test/index.js -w",
@@ -48,6 +49,8 @@
     "phantomjs": "^1.9.19",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
+    "verb": "^0.8.10",
+    "verb-cli": "^0.7.4",
     "watchify": "^3.6.1"
   },
   "dependencies": {
