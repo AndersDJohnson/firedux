@@ -344,3 +344,4 @@ export default class Firedux {
     })
   }
 }
+
