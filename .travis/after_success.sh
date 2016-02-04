@@ -2,12 +2,14 @@
 
 npm run verb
 
+[ "${TRAVIS_PULL_REQUEST}" = "true" ] && exit 1
+
 git config user.name "Travis CI"
 git config user.email "adjohnson916@users.noreply.github.com"
 
-if [ $? -ne 0 ]; then exit 1; fi
+[ $? -ne 0 ] && exit 1
 git add README.md
 git commit -m "Build README.md."
-if [ $? -ne 0 ]; then exit 1; fi
-git push "https://${GITHUB_TOKEN}@github.com/adjohnson916/firedux.git"
+[ $? -ne 0 ] && exit 1
+git push "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git" $TRAVIS_BRANCH
 
