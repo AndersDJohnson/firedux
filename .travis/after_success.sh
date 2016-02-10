@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Exit unless default Node version (don't run for each one)
+[ "${TRAVIS_NODE_VERSION}" = "node" ] && exit 1
+
+# Exit if this is a pull request (T.B.D. - will it run again?)
 [ "${TRAVIS_PULL_REQUEST}" = "true" ] && exit 1
 
 echo "Not a pull request..."
@@ -12,6 +16,7 @@ echo
 
 # Exit unless README.md changed.
 ( echo $GIT_CHANGED_FILES | grep README.md >> /dev/null ) && exit 1
+
 
 echo "Setting git user..."
 
