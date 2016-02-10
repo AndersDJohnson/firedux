@@ -3,6 +3,13 @@
 [ "${TRAVIS_PULL_REQUEST}" = "true" ] && exit 1
 
 echo "Not a pull request..."
+
+GIT_CHANGED_FILES=`git diff --name-only HEAD^`
+
+echo "Git changed files:"
+echo $GIT_CHANGED_FILES
+echo
+
 echo "Setting git user..."
 
 git config user.name "Travis CI"
