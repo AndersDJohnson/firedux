@@ -10,6 +10,9 @@ echo "Git changed files:"
 echo $GIT_CHANGED_FILES
 echo
 
+# Exit unless README.md changed.
+( echo $GIT_CHANGED_FILES | grep README.md >> /dev/null ) && exit 1
+
 echo "Setting git user..."
 
 git config user.name "Travis CI"
