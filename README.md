@@ -17,7 +17,7 @@ Also supports some authentication methods and actions.
 Install with [npm](https://www.npmjs.com/)
 
 ```sh
-$ npm i firedux --save-dev
+$ npm i firedux --save
 ```
 
 You'll need to configure `redux-thunk` on your Redux store.
