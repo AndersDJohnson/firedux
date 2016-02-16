@@ -4,7 +4,6 @@
   "description": "Firebase + Redux for ReactJS",
   "repository": "AndersDJohnson/firedux",
   "main": "dist/src/index.js",
-  "browser": "dist/src/index.browser.js",
   "scripts": {
     "verb": "verb",
     "test": "eslint src && mocha --require babel-core/register",
