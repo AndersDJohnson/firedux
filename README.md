@@ -12,6 +12,8 @@ then asynchronously pull & push data in the background.
 
 Also supports some authentication methods and actions.
 
+Works well with React.
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/)
