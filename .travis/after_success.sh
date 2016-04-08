@@ -2,7 +2,7 @@
 
 # Exit unless default Node version (don't run for each one)
 echo "TRAVIS_NODE_VERSION=${TRAVIS_NODE_VERSION}"
-[ "${TRAVIS_NODE_VERSION}" = "node" ] && exit 1
+[ "${TRAVIS_NODE_VERSION}" != "node" ] && exit 1
 
 echo "TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST}"
 # Exit if this is a pull request (T.B.D. - will it run again?)
