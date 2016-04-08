@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/firedux.png)](https://nodei.co/npm/firedux/)
 
-Wraps the [Firebase] [JavaScript API](https://www.firebase.com/docs/web/api/)
+Wraps the [Firebase](https://www.firebase.com/) [JavaScript API](https://www.firebase.com/docs/web/api/)
 to dispatch [Redux](http://redux.js.org/) actions
 that optimisically & immediately read/write to an in-memory
 subset of your data from Firebase,
