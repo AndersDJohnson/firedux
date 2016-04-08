@@ -23,6 +23,9 @@ echo "Setting git user..."
 git config user.name "Travis CI"
 git config user.email "adjohnson916@users.noreply.github.com"
 
+echo "Git checkout... branch=$TRAVIS_BRANCH"
+git checkout $TRAVIS_BRANCH
+
 echo "Running verb..."
 
 npm run verb
@@ -30,10 +33,6 @@ npm run verb
 [ $? -ne 0 ] && exit 1
 
 echo "Verb complete."
-echo "Git operations..."
-
-echo "Git checkout... branch=$TRAVIS_BRANCH"
-git checkout $TRAVIS_BRANCH
 
 echo "Git add..."
 git add README.md
