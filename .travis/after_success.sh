@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Exit unless default Node version (don't run for each one)
+echo "TRAVIS_NODE_VERSION=${TRAVIS_NODE_VERSION}"
 [ "${TRAVIS_NODE_VERSION}" = "node" ] && exit 1
 
+echo "TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST}"
 # Exit if this is a pull request (T.B.D. - will it run again?)
 [ "${TRAVIS_PULL_REQUEST}" = "true" ] && exit 1
-
-echo "Not a pull request..."
 
 GIT_CHANGED_FILES=`git diff --name-only HEAD^`
 
