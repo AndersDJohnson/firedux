@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/firedux.png)](https://nodei.co/npm/firedux/)
 
-Wraps the [Firebase](https://www.firebase.com/) [JavaScript API](https://www.firebase.com/docs/web/api/)
+Firedux (_fiery·ducks_) wraps the [Firebase](https://www.firebase.com/) [JavaScript API](https://www.firebase.com/docs/web/api/)
 to dispatch [Redux](http://redux.js.org/) actions
 that optimisically & immediately read/write to an in-memory
 subset of your data from Firebase,
@@ -14,7 +14,9 @@ Also supports some authentication methods and actions.
 
 Works well with [React](https://facebook.github.io/react/).
 
-[![Firey ducks like Magmar!](docs/magmar.gif)](https://www.firebase.com/)
+Support firedux and fiery ducks like Magmar!
+
+[![Magmar](docs/magmar.gif)](https://www.firebase.com/)
 
 ## Install
 
