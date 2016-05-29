@@ -23,12 +23,12 @@ function urlToKeyPath (url) {
 export default class Firedux {
   constructor (options) {
     const that = this
-    this.url = options.url
+    this.url = options.url || options.ref.toString()
+    this.ref = options.ref || new Firebase(this.url)
     if (this.url.slice(-1) !== '/') {
       this.url += '/'
     }
     this.omit = options.omit || []
-    this.ref = new Firebase(this.url)
     this.token = null
     this.getting = {}
     this.removing = {}
@@ -344,4 +344,3 @@ export default class Firedux {
     })
   }
 }
-
