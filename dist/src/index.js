@@ -1,10 +1,12 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _firebase = require('firebase');
 
@@ -30,8 +32,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
 var Promise = _es6Promise2.default.Promise;
 
 var debug = (0, _debug3.default)('firedux');
@@ -50,17 +50,17 @@ function urlToKeyPath(url) {
   return keyPath;
 }
 
-var Firedux = (function () {
+var Firedux = function () {
   function Firedux(options) {
     _classCallCheck(this, Firedux);
 
     var that = this;
-    this.url = options.url;
+    this.url = options.url || options.ref.toString();
+    this.ref = options.ref || new _firebase2.default(this.url);
     if (this.url.slice(-1) !== '/') {
       this.url += '/';
     }
     this.omit = options.omit || [];
-    this.ref = new _firebase2.default(this.url);
     this.token = null;
     this.getting = {};
     this.removing = {};
@@ -104,9 +104,9 @@ var Firedux = (function () {
         switch (action.type) {
           case 'FIREBASE_GET':
           case 'FIREBASE_WATCH':
+          case 'FIREBASE_UPDATE':
             return makeFirebaseState(action, state, action.path, action.snapshot.val());
           case 'FIREBASE_SET':
-          case 'FIREBASE_UPDATE':
           case 'FIREBASE_PUSH':
             return makeFirebaseState(action, state, action.path, action.value);
           case 'FIREBASE_REMOVE':
@@ -357,7 +357,7 @@ var Firedux = (function () {
         _this8.removing[path] = true;
         debug('FB remove', path);
 
-        var value = undefined;
+        var value = void 0;
 
         // optimism
         dispatch({
@@ -392,8 +392,8 @@ var Firedux = (function () {
       return new Promise(function (resolve, reject) {
         debug('FB PUSH', toPath, newValue);
 
-        var path = undefined,
-            newId = undefined;
+        var path = void 0,
+            newId = void 0;
         var ref = that.ref.child(toPath);
         var pushRef = ref.push(newValue, function (error) {
           dispatch({
@@ -426,6 +426,6 @@ var Firedux = (function () {
   }]);
 
   return Firedux;
-})();
+}();
 
 exports.default = Firedux;
