@@ -69,9 +69,9 @@ export default class Firedux {
         switch (action.type) {
           case 'FIREBASE_GET':
           case 'FIREBASE_WATCH':
+          case 'FIREBASE_UPDATE':
             return makeFirebaseState(action, state, action.path, action.snapshot.val())
           case 'FIREBASE_SET':
-          case 'FIREBASE_UPDATE':
           case 'FIREBASE_PUSH':
             return makeFirebaseState(action, state, action.path, action.value)
           case 'FIREBASE_REMOVE':
