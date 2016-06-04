@@ -36,13 +36,14 @@ export default class Firedux {
     this.actionId = 0
     this.dispatch = null
 
-    function makeFirebaseState (action, state, path, value) {
+    function makeFirebaseState (action, state, path, value, merge = false) {
       const keyPath = urlToKeyPath(path)
       // const dataPath = 'data.' + keyPath
       const dataPath = ['data'].concat(splitUrl(path))
       // const statusPath = 'status.' + keyPath
-      debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value)
-      const newState = updeep.updateIn(dataPath, updeep.constant(value), state)
+      debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge)
+      value = merge ? value : updeep.constant(value)
+      const newState = updeep.updateIn(dataPath, value, state)
       return newState
     }
 
@@ -71,9 +72,10 @@ export default class Firedux {
           case 'FIREBASE_WATCH':
             return makeFirebaseState(action, state, action.path, action.snapshot.val())
           case 'FIREBASE_SET':
-          case 'FIREBASE_UPDATE':
           case 'FIREBASE_PUSH':
             return makeFirebaseState(action, state, action.path, action.value)
+          case 'FIREBASE_UPDATE':
+            return makeFirebaseState(action, state, action.path, action.value, true)
           case 'FIREBASE_REMOVE':
             return removeFirebaseState(action, state, action.path)
           case 'FIREBASE_SET_RESPONSE':
