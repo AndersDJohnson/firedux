@@ -41,12 +41,60 @@ describe('test', t => {
     firedux.set('test', true)
     .then(() => {
       return firedux.get('test')
-    }, done)
+    })
     .then((result) => {
       assert.equal(result.snapshot.val(), true)
       done()
-    }, done)
+    })
+    .catch(done)
+  })
+
+  it('should replace on set', (t, done) => {
+    t.timeout(10000)
+
+    store.subscribe(() => {
+      const state = store.getState()
+      console.log('STATE:', JSON.stringify(state, null, '  '))
+    })
+
+    firedux.set('set', {first: true})
+    .then(() => {
+      const p = firedux.set('set', {second: true})
+      const state = store.getState()
+      assert.deepEqual(state.firedux.data.set, {second: true})
+      return p
+    })
+    .then(() => {
+      return firedux.get('set')
+    })
+    .then((result) => {
+      assert.deepEqual(result.snapshot.val(), {second: true})
+      done()
+    })
+    .catch(done)
+  })
+
+  it('should update on update', (t, done) => {
+    t.timeout(10000)
+
+    store.subscribe(() => {
+      const state = store.getState()
+      console.log('STATE:', JSON.stringify(state, null, '  '))
+    })
+
+    firedux.set('update', {first: true})
+    .then(() => {
+      const p = firedux.update('update', {second: true})
+      const state = store.getState()
+      assert.deepEqual(state.firedux.data.update, {first: true, second: true}, 'local state')
+      return p
+    })
+    .then(() => {
+      return firedux.get('update')
+    })
+    .then((result) => {
+      done()
+    })
     .catch(done)
   })
 })
-
