@@ -288,6 +288,7 @@ export default class Firedux {
         type: 'FIREBASE_REMOVE',
         path: path,
         // TODO: How to access state for cleaner rollback?
+        // eslint-disable-next-line no-return-assign
         setValue: (v) => value = v
       })
       this.ref.child(path).remove((error) => {
