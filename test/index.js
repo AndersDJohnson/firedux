@@ -74,7 +74,7 @@ describe('test', t => {
     .catch(done)
   })
 
-  it('should update on update', (t, done) => {
+  it('should merge on update', (t, done) => {
     t.timeout(10000)
 
     store.subscribe(() => {
