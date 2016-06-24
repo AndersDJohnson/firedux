@@ -20,6 +20,15 @@
     "node": "npm run node:test && npm run node:src",
     "build": "npm run node && npm run browser"
   },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run test:lint",
+      "commit-msg": "validate-commit-msg",
+      "pre-push": "npm run test",
+      "post-merge": "npm install",
+      "post-rewrite": "npm install"
+    }
+  },
   "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
   "bugs": {
     "url": "https://github.com/AndersDJohnson/firedux/issues"
@@ -42,10 +51,12 @@
     "eslint-config-standard": "^5.3.1",
     "eslint-plugin-promise": "^1.3.2",
     "eslint-plugin-standard": "^1.3.2",
+    "ghooks": "^1.2.4",
     "mocha": "^2.3.4",
     "npm-run-all": "^2.1.1",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
+    "validate-commit-msg": "^2.6.1",
     "verb": "^0.8.10",
     "verb-cli": "^0.7.4",
     "watchify": "^3.6.1"
