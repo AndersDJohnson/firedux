@@ -16,9 +16,9 @@
     "browser:test": "browserify test/index.js -o dist/test/index.browser.js -t babelify",
     "browser:test:watch": "watchify test/index.js -o dist/test/index.browser.js -t babelify",
     "browser:src": "browserify src/index.js -o dist/src/index.browser.js -t babelify",
-    "browser": "npm ru browser:test && npm ru browser:src",
-    "node": "npm ru node:test && npm ru node:src",
-    "build": "npm ru node && npm ru browser"
+    "browser": "npm run browser:test && npm run browser:src",
+    "node": "npm run node:test && npm run node:src",
+    "build": "npm run node && npm run browser"
   },
   "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
   "bugs": {
