@@ -41,7 +41,7 @@ echo "Git add..."
 git add README.md
 [ $? -ne 0 ] && exit 1
 echo "Git commit..."
-git commit -m "Build README.md from Travis."
+git commit -m "docs(README): Build from Travis."
 [ $? -ne 0 ] && exit 1
 echo "Git push..."
 git push -q "https://${GITHUB_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git" $TRAVIS_BRANCH 2>&1 > /dev/null
