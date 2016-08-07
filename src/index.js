@@ -23,6 +23,9 @@ function urlToKeyPath (url) {
 export default class Firedux {
   constructor (options) {
     const that = this
+    if (options.url) {
+      console.warn('Firedux option "url" is deprecated, use "ref" instead.')
+    }
     this.url = options.url || options.ref.toString()
     this.ref = options.ref || new Firebase(this.url)
     if (this.url.slice(-1) !== '/') {
