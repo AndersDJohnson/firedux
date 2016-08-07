@@ -123,16 +123,18 @@ export default class Firedux {
       }
 
       // listen for auth changes
-      this.ref.onAuth(function (authData) {
-        debug('FB AUTH DATA', authData)
-        if (!authData) {
-          localStorage.removeItem('FIREBASE_TOKEN')
-          that.authData = null
-          dispatch({type: 'FIREBASE_LOGOUT'})
-          reject()
-        }
-        resolve(authData)
-      })
+      if (_.isFunction(this.ref.onAuth)) {
+        this.ref.onAuth(function (authData) {
+          debug('FB AUTH DATA', authData)
+          if (!authData) {
+            localStorage.removeItem('FIREBASE_TOKEN')
+            that.authData = null
+            dispatch({type: 'FIREBASE_LOGOUT'})
+            reject()
+          }
+          resolve(authData)
+        })
+      }
     })
   }
   login (credentials) {
@@ -331,7 +333,8 @@ export default class Firedux {
         else resolve(newId)
       })
       path = pushRef.toString().replace(that.url, '')
-      newId = pushRef.key()
+      // function in firebase@2, property in firebase@3
+      newId = _.isFunction(pushRef, 'key') ? pushRef.key() : pushRef.key
       if (onId) onId(newId)
 
       // optimism
