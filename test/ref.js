@@ -1,24 +1,18 @@
 /* eslint-env mocha */
-// import { it, before, after, beforeEach, afterEach } from 'arrow-mocha/es5'
-import { it, beforeEach } from 'arrow-mocha/es5'
 
-import Firedux from '../src'
-import Firebase from 'firebase'
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import thunk from 'redux-thunk'
-import assert from 'assert'
+import firebase from 'firebase'
 
-describe('ref', t => {
-  let firedux
-  let reducer
-  let store
-
-  it('should init and detect url', t => {
-    var url = 'https://redux-firebase.firebaseio.com/'
-    var ref = new Firebase(url)
-    firedux = new Firedux({
-      ref
-    })
-    assert.equal(firedux.url, url)
-  })
-})
+let ref
+if (process.env.FIREBASE_VERSION === '2') {
+  ref = new firebase('https://redux-firebase.firebaseio.com/')
+}
+else {
+  const config = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: 'firedux-3d1a8.firebaseapp.com',
+    databaseURL: 'https://firedux-3d1a8.firebaseio.com'
+  }
+  firebase.initializeApp(config)
+  ref = firebase.database().ref()
+}
+module.exports = ref

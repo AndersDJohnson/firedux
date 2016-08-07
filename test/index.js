@@ -6,6 +6,7 @@ import Firedux from '../src'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import assert from 'assert'
+import ref from './ref'
 
 describe('test', t => {
   let firedux
@@ -14,7 +15,7 @@ describe('test', t => {
 
   beforeEach(t => {
     firedux = new Firedux({
-      url: 'https://redux-firebase.firebaseio.com/'
+      ref
     })
 
     reducer = combineReducers({
@@ -93,6 +94,19 @@ describe('test', t => {
       return firedux.get('update')
     })
     .then((result) => {
+      done()
+    })
+    .catch(done)
+  })
+
+  it('should push with key', (t, done) => {
+    t.timeout(10000)
+
+    firedux.push('push', {first: true}, id => {
+      assert.ok(id)
+    })
+    .then((id) => {
+      assert.ok(id)
       done()
     })
     .catch(done)
