@@ -6,7 +6,7 @@ import Firedux from '../src'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
 import assert from 'assert'
-import ref from './ref'
+import { ref, url } from './ref'
 
 describe('test', t => {
   let firedux
@@ -30,7 +30,11 @@ describe('test', t => {
     firedux.dispatch = store.dispatch
   })
 
-  it('should', (t, done) => {
+  it('should get url from ref', (t) => {
+    assert.equal(firedux.url, url)
+  })
+
+  it('should set and get', (t, done) => {
     t.timeout(10000)
 
     store.subscribe(() => {
