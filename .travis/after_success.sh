@@ -11,7 +11,7 @@ echo "TRAVIS_PULL_REQUEST=${TRAVIS_PULL_REQUEST}"
 # Exit if this is a pull request (T.B.D. - will it run again?)
 [ "${TRAVIS_PULL_REQUEST}" = "true" ] && exit 1
 
-GIT_CHANGED_FILES=`git diff --name-only HEAD^`
+GIT_CHANGED_FILES=`git diff --name-only ${TRAVIS_COMMIT_RANGE}`
 
 echo "Git changed files:"
 echo $GIT_CHANGED_FILES
