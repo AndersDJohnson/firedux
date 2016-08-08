@@ -157,6 +157,20 @@ firedux.ref.authWithOAuthPopup("twitter", (error, authData) => {
 })
 ```
 
+## Analytics
+
+This component includes tracking via Google Analytics.
+The purpose is to better understand how and where it's used, as a guide for development.
+
+To opt-out of this tracking, before loading the script on your page,
+use the global options in JavaScript, with `noTrack` set to `true`, as follows:
+
+```js
+window.FIREDUX_OPTIONS = {
+  noTrack: true
+};
+```
+
 ## Running tests
 
 Install dev dependencies:
