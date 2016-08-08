@@ -3,8 +3,15 @@ import _promise from 'es6-promise'
 const { Promise } = _promise
 import _ from 'lodash'
 import updeep from 'updeep'
+import gaTrack from 'google-analytics-js'
 import _debug from 'debug'
 const debug = _debug('firedux')
+
+if (typeof window !== 'undefined') {
+  if (!(window.FIREDUX_OPTIONS && window.FIREDUX_OPTIONS.noTrack)) {
+    gaTrack('UA-82065077-1', 'github.com', '/adjohnson916/firedux/src/index.js')
+  }
+}
 
 const localStorage = typeof window === 'object' ? window.localStorage : null
 
