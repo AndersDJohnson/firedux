@@ -68,6 +68,13 @@ var Firedux = function () {
     if (options.url) {
       console.warn('Firedux option "url" is deprecated, use "ref" instead.');
     }
+
+    this.v3 = options.ref !== null;
+
+    if (this.v3) {
+      this.auth = firebase.auth; // eslint-disable-line
+    }
+
     this.url = options.url || options.ref.toString();
     this.ref = options.ref || new _firebase2.default(this.url);
     if (this.url.slice(-1) !== '/') {
@@ -80,6 +87,7 @@ var Firedux = function () {
     this.watching = {};
     this.actionId = 0;
     this.dispatch = null;
+    this.userAuth = null;
 
     function makeFirebaseState(action, state, path, value) {
       var merge = arguments.length <= 4 || arguments[4] === undefined ? false : arguments[4];
@@ -180,6 +188,22 @@ var Firedux = function () {
           }));
         }
 
+        if (_this.v3) {
+          var auth = _this.auth();
+
+          auth.onAuthStateChanged(function (user) {
+            if (user) {
+              _this.userAuth = user;
+              resolve(user);
+            } else {
+              localStorage.removeItem('FIREBASE_TOKEN');
+              that.authData = null;
+              dispatch({ type: 'FIREBASE_LOGOUT' });
+              reject();
+            }
+          });
+        }
+
         // listen for auth changes
         if (_lodash2.default.isFunction(_this.ref.onAuth)) {
           _this.ref.onAuth(function (authData) {
@@ -206,23 +230,38 @@ var Firedux = function () {
       return new Promise(function (resolve, reject) {
         dispatch({ type: 'FIREBASE_LOGIN_ATTEMPT' });
 
+        var handleError = function handleError(error) {
+          var authData = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+          console.error('FB AUTH ERROR', error, authData);
+          dispatch({ type: 'FIREBASE_LOGIN_ERROR', error: error });
+          reject(error);
+        };
+
         var handler = function handler(error, authData) {
           // TODO: Error handling.
           debug('FB AUTH', error, authData);
-          if (error) {
-            console.error('FB AUTH ERROR', error, authData);
-            dispatch({ type: 'FIREBASE_LOGIN_ERROR', error: error });
-            reject(error);
-            return;
-          }
-          localStorage.setItem('FIREBASE_TOKEN', authData.token);
+
+          if (error) return handleError(error);
+
+          localStorage.setItem('FIREBASE_TOKEN', authData.token || authData.refreshToken);
           that.authData = authData;
           dispatch({ type: 'FIREBASE_LOGIN', authData: authData, error: error });
           resolve(authData);
         };
 
         try {
-          if (credentials.token) {
+          if (_this2.v3) {
+            // need to ignore redux
+            if (_lodash2.default.isFunction(credentials)) return null;
+
+            // TODO add custom later...
+            _this2.auth().signInWithEmailAndPassword(credentials.email, credentials.password).then(function (authData) {
+              return handler(null, authData);
+            }).catch(function (error) {
+              return handleError(error);
+            });
+          } else if (credentials.token) {
             _this2.ref.authWithCustomToken(_this2.token, handler);
           } else {
             _this2.ref.authWithPassword(credentials, handler);
@@ -241,9 +280,19 @@ var Firedux = function () {
 
       var dispatch = this.dispatch;
 
+
       return new Promise(function (resolve, reject) {
         dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
-        _this3.ref.unauth();
+        if (_this3.v3) {
+          _this3.auth().signOut().then(function () {
+            return resolve();
+          }, function (error) {
+            return reject(error);
+          });
+        } else {
+          _this3.ref.unauth(); // no callbacks for old firebase :(
+        }
+
         _this3.authData = null;
         _this3.authError = null;
         dispatch({ type: 'FIREBASE_LOGOUT' });
