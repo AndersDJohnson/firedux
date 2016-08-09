@@ -32,6 +32,13 @@ export default class Firedux {
     if (options.url) {
       console.warn('Firedux option "url" is deprecated, use "ref" instead.')
     }
+
+    this.v3 = Firebase.SDK_VERSION.substr(0, 2) === '3.'
+
+    if (this.v3) {
+        this.auth = Firebase.auth// eslint-disable-line
+    }
+
     this.url = options.url || options.ref.toString()
     this.ref = options.ref || new Firebase(this.url)
     if (this.url.slice(-1) !== '/') {
@@ -44,6 +51,7 @@ export default class Firedux {
     this.watching = {}
     this.actionId = 0
     this.dispatch = null
+    this.userAuth = null
 
     function makeFirebaseState (action, state, path, value, merge = false) {
       // const keyPath = urlToKeyPath(path)
@@ -103,8 +111,9 @@ export default class Firedux {
             }
             return state
           case 'FIREBASE_LOGIN':
-          case 'FIREBASE_LOGOUT':
           case 'FIREBASE_LOGIN_ERROR':
+          case 'FIREBASE_LOGOUT':
+          case 'FIREBASE_LOGOUT_ERROR':
             return updeep({
               authData: action.authData,
               authError: action.error
@@ -131,6 +140,22 @@ export default class Firedux {
         }))
       }
 
+      if (this.v3) {
+        const auth = this.auth()
+
+        auth.onAuthStateChanged(user => {
+          if (user) {
+            this.userAuth = user
+            resolve(user)
+          } else {
+            localStorage.removeItem('FIREBASE_TOKEN')
+            that.authData = null
+            dispatch({type: 'FIREBASE_LOGOUT'})
+            reject()
+          }
+        })
+      }
+
       // listen for auth changes
       if (_.isFunction(this.ref.onAuth)) {
         this.ref.onAuth(function (authData) {
@@ -152,23 +177,40 @@ export default class Firedux {
     return new Promise((resolve, reject) => {
       dispatch({type: 'FIREBASE_LOGIN_ATTEMPT'})
 
+      const handleError = function (error, authData = {}) {
+        console.error('FB AUTH ERROR', error, authData)
+        dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
+        reject(error)
+      }
+
       const handler = function (error, authData) {
         // TODO: Error handling.
         // debug('FB AUTH', error, authData)
-        if (error) {
-          console.error('FB AUTH ERROR', error, authData)
-          dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
-          reject(error)
-          return
-        }
-        localStorage.setItem('FIREBASE_TOKEN', authData.token)
+
+        if (error) return handleError(error)
+
+        localStorage.setItem('FIREBASE_TOKEN', (authData.token || authData.refreshToken))
         that.authData = authData
         dispatch({type: 'FIREBASE_LOGIN', authData: authData, error: error})
         resolve(authData)
       }
 
       try {
-        if (credentials.token) {
+        if (!credentials) {
+          reject()
+          return
+        }
+        if (this.v3) {
+          if (!credentials.email && !credentials.password) {
+            reject()
+            return
+          }
+          // TODO add custom later...
+          this.auth()
+            .signInWithEmailAndPassword(credentials.email, credentials.password)
+            .then(authData => handler(null, authData))
+            .catch(error => handleError(error))
+        } else if (credentials.token) {
           this.ref.authWithCustomToken(this.token, handler)
         } else {
           this.ref.authWithPassword(credentials, handler)
@@ -182,13 +224,30 @@ export default class Firedux {
   }
   logout () {
     const { dispatch } = this
+
     return new Promise((resolve, reject) => {
       dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
-      this.ref.unauth()
-      this.authData = null
-      this.authError = null
-      dispatch({type: 'FIREBASE_LOGOUT'})
-      resolve()
+
+      const handleLogout = function () {
+        this.authData = null
+        this.authError = null
+        dispatch({type: 'FIREBASE_LOGOUT'})
+        resolve()
+      }
+
+      const handleLogoutError = function (error) {
+        dispatch({type: 'FIREBASE_LOGOUT_ERROR', error})
+        if (error) reject(error)
+        else resolve()
+      }
+
+      if (this.v3) {
+        this.auth().signOut()
+        .then(handleLogout, handleLogoutError)
+      } else {
+        this.ref.unauth() // no callbacks for old firebase :(
+        handleLogout()
+      }
     })
   }
   watch (path, onComplete) {

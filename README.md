@@ -57,8 +57,8 @@ var ref = new Firebase('https://redux-firebase.firebaseio.com/')
 var app = Firebase.initializeApp({
   apiKey: '<your-api-key>',
   authDomain: '<your-auth-domain>',
-  databaseURL: 'https://redux-firebase.firebaseio.com/',
-  storageBucket: '<your-storage-bucket>'
+  databaseURL: 'https://redux-firebase.firebaseio.com/'
+  // ...
 })
 var ref = app.database().ref()
 
