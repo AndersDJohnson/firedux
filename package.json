@@ -69,7 +69,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "es6-promise": "^3.0.2",
-    "firebase": "^2.3.2",
+    "firebase": "^3.2.1",
     "google-analytics-js": "^0.1.0",
     "lodash": "^4.13.1",
     "updeep": "^0.16.0"
