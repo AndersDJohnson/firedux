@@ -6,7 +6,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "verb": "verb",
-    "test": "npm-run-all --parallel test:*",
+    "test": "npm-run-all test:*",
     "test:lint": "eslint src",
     "test:unit": "npm-run-all test:unit:*",
     "test:unit:firebase@2": "npm i firebase@2 && FIREBASE_VERSION=2 mocha --require babel-core/register",
