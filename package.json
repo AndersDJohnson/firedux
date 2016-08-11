@@ -20,7 +20,9 @@
     "browser:src": "browserify src/index.js -o dist/src/index.browser.js -t babelify",
     "browser": "npm run browser:test && npm run browser:src",
     "node": "npm run node:test && npm run node:src",
-    "build": "npm run node && npm run browser"
+    "build": "npm run node && npm run browser",
+    "publish-please": "publish-please",
+    "prepublish": "publish-please guard"
   },
   "config": {
     "ghooks": {
@@ -56,6 +58,7 @@
     "ghooks": "^1.2.4",
     "mocha": "^3.0.1",
     "npm-run-all": "^2.1.1",
+    "publish-please": "^2.2.0",
     "redux": "^3.0.5",
     "redux-thunk": "^1.0.3",
     "validate-commit-msg": "^2.6.1",
