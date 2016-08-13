@@ -6,7 +6,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "verb": "verb",
-    "test": "npm-run-all --parallel test:*",
+    "test": "npm-run-all test:*",
     "test:lint": "eslint src",
     "test:unit": "npm-run-all test:unit:*",
     "test:unit:firebase@2": "npm i firebase@2 && FIREBASE_VERSION=2 mocha --require babel-core/register",
@@ -20,7 +20,9 @@
     "browser:src": "browserify src/index.js -o dist/src/index.browser.js -t babelify",
     "browser": "npm run browser:test && npm run browser:src",
     "node": "npm run node:test && npm run node:src",
-    "build": "npm run node && npm run browser"
+    "build": "npm run node && npm run browser",
+    "publish-please": "publish-please",
+    "prepublish": "publish-please guard"
   },
   "config": {
     "ghooks": {
@@ -44,31 +46,32 @@
   ],
   "devDependencies": {
     "arrow-mocha": "^1.0.1",
-    "babel-cli": "^6.3.17",
-    "babel-core": "^6.3.26",
-    "babel-preset-es2015": "^6.3.13",
-    "babelify": "^7.2.0",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babelify": "^7.3.0",
     "browserify": "^13.1.0",
-    "eslint": "^2.11.1",
-    "eslint-config-standard": "^5.3.1",
-    "eslint-plugin-promise": "^1.3.2",
-    "eslint-plugin-standard": "^1.3.2",
-    "ghooks": "^1.2.4",
-    "mocha": "^3.0.1",
-    "npm-run-all": "^2.1.1",
-    "redux": "^3.0.5",
-    "redux-thunk": "^1.0.3",
+    "eslint": "^3.2.2",
+    "eslint-config-standard": "^5.3.5",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
+    "ghooks": "^1.3.2",
+    "mocha": "^3.0.2",
+    "npm-run-all": "^2.3.0",
+    "publish-please": "^2.2.0",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
     "validate-commit-msg": "^2.6.1",
     "verb": "^0.8.10",
     "verb-cli": "^0.7.4",
-    "watchify": "^3.6.1"
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "es6-promise": "^3.0.2",
-    "firebase": "^2.3.2",
+    "es6-promise": "^3.2.1",
+    "firebase": "^3.2.1",
     "google-analytics-js": "^0.1.0",
-    "lodash": "^4.13.1",
-    "updeep": "^0.16.0"
+    "lodash": "^4.14.2",
+    "updeep": "^0.16.1"
   }
 }
