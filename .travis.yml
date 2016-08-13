@@ -2,10 +2,9 @@ after_success: ./.travis/after_success.sh
 language: node_js
 node_js:
 - node
-- iojs
-- '4.1'
-- '4.0'
-- '0.12'
+- '6'
+- '5'
+- '4'
 sudo: false
 env:
   global:
