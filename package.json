@@ -72,6 +72,6 @@
     "firebase": "^3.2.1",
     "google-analytics-js": "^0.1.0",
     "lodash": "^4.15.0",
-    "updeep": "^0.16.1"
+    "updeep": "^1.0.0"
   }
 }
