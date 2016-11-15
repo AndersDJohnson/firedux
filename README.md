@@ -70,10 +70,13 @@ const reducer = combineReducers({
 })
 
 // Create store with middleware, including thunk.
-const store = applyMiddleware(
+
+const middleware = applyMiddleware(
   thunk
   // Your other middleware...
-)(createStore)(reducer)
+)
+
+const store = createStore(reducer, middleware)
 
 // Set dispatch function from store on your Firedux instance.
 firedux.dispatch = store.dispatch
