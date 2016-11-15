@@ -70,7 +70,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "debug": "^2.2.0",
+    "debug": "^2.3.1",
     "es6-promise": "^3.2.1",
     "firebase": "^3.2.1",
     "google-analytics-js": "^0.1.0",
