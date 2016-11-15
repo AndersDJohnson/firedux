@@ -12,6 +12,7 @@ describe('test', t => {
   let firedux
   let reducer
   let store
+  let middleware
 
   beforeEach(t => {
     firedux = new Firedux({
@@ -23,9 +24,9 @@ describe('test', t => {
       firedux: firedux.reducer()
     })
 
-    store = applyMiddleware(
-      thunk
-    )(createStore)(reducer)
+    middleware = applyMiddleware(thunk)
+
+    store = createStore(reducer, middleware)
 
     firedux.dispatch = store.dispatch
   })
