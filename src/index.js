@@ -34,10 +34,10 @@ export default class Firedux {
       console.warn('Firedux option "url" is deprecated, use "ref" instead.')
     }
 
-    this.v3 = options.ref !== null
+    this.v3 = Firebase.SDK_VERSION.substr(0, 2) === '3.'
 
     if (this.v3) {
-        this.auth = firebase.auth// eslint-disable-line
+        this.auth = Firebase.auth// eslint-disable-line
     }
 
     this.url = options.url || options.ref.toString()
