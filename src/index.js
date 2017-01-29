@@ -4,8 +4,8 @@ const { Promise } = _promise
 import _ from 'lodash'
 import updeep from 'updeep'
 import gaTrack from 'google-analytics-js'
-import _debug from 'debug'
-const debug = _debug('firedux')
+// import _debug from 'debug'
+// const debug = _// debug('firedux')
 
 if (typeof window !== 'undefined') {
   if (!(window.FIREDUX_OPTIONS && window.FIREDUX_OPTIONS.noTrack)) {
@@ -22,10 +22,11 @@ const initialState = {
 function splitUrl (url) {
   return url.split(/\//)
 }
-function urlToKeyPath (url) {
-  const keyPath = splitUrl(url).join('.')
-  return keyPath
-}
+
+// function urlToKeyPath (url) {
+//   const keyPath = splitUrl(url).join('.')
+//   return keyPath
+// }
 
 export default class Firedux {
   constructor (options) {
@@ -47,11 +48,11 @@ export default class Firedux {
     this.dispatch = null
 
     function makeFirebaseState (action, state, path, value, merge = false) {
-      const keyPath = urlToKeyPath(path)
+      // const keyPath = urlToKeyPath(path)
       // const dataPath = 'data.' + keyPath
       const dataPath = ['data'].concat(splitUrl(path))
       // const statusPath = 'status.' + keyPath
-      debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge)
+      // debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge)
       value = merge ? value : updeep.constant(value)
       const newState = updeep.updateIn(dataPath, value, state)
       return newState
@@ -76,7 +77,7 @@ export default class Firedux {
 
     this.reducer = function reducer () {
       return function (state = initialState, action) {
-        debug('FIREBASE ACTION', action.type, action)
+        // debug('FIREBASE ACTION', action.type, action)
         switch (action.type) {
           case 'FIREBASE_GET':
           case 'FIREBASE_WATCH':
@@ -135,7 +136,7 @@ export default class Firedux {
       // listen for auth changes
       if (_.isFunction(this.ref.onAuth)) {
         this.ref.onAuth(function (authData) {
-          debug('FB AUTH DATA', authData)
+          // debug('FB AUTH DATA', authData)
           if (!authData) {
             localStorage.removeItem('FIREBASE_TOKEN')
             that.authData = null
@@ -155,7 +156,7 @@ export default class Firedux {
 
       const handler = function (error, authData) {
         // TODO: Error handling.
-        debug('FB AUTH', error, authData)
+        // debug('FB AUTH', error, authData)
         if (error) {
           console.error('FB AUTH ERROR', error, authData)
           dispatch({type: 'FIREBASE_LOGIN_ERROR', error})
@@ -196,13 +197,13 @@ export default class Firedux {
     const { dispatch } = this
     return new Promise((resolve) => {
       if (this.watching[path]) {
-        // debug('already watching', path)
+        // // debug('already watching', path)
         return false
       }
       this.watching[path] = true
-      debug('DISPATCH WATCH', path)
+      // debug('DISPATCH WATCH', path)
       this.ref.child(path).on('value', snapshot => {
-        debug('GOT WATCHED VALUE', path, snapshot.val())
+        // debug('GOT WATCHED VALUE', path, snapshot.val())
         // TODO: Make watches smart enough to ignore pending updates, e.g. not replace
         //  a path that has been removed locally but is queued for remote delete?
         dispatch({
@@ -220,11 +221,11 @@ export default class Firedux {
     const { dispatch } = this
     return new Promise((resolve) => {
       if (this.getting[path]) {
-        debug('already getting', path)
+        // debug('already getting', path)
         return { type: 'FIREBASE_GET_PENDING' }
       }
       this.getting[path] = true
-      debug('FB GET', path)
+      // debug('FB GET', path)
       this.ref.child(path).once('value', snapshot => {
         this.getting[path] = false
         dispatch({
@@ -241,7 +242,7 @@ export default class Firedux {
     const { dispatch } = this
     return new Promise((resolve, reject) => {
       const newValue = this.cleanValue(value)
-      debug('FB SET', path, newValue)
+      // debug('FB SET', path, newValue)
       // optimism
       dispatch({
         type: 'FIREBASE_SET',
@@ -265,7 +266,7 @@ export default class Firedux {
     const { dispatch } = this
     return new Promise((resolve, reject) => {
       const newValue = this.cleanValue(value)
-      debug('FB UPDATE', path, newValue)
+      // debug('FB UPDATE', path, newValue)
       // optimism
       dispatch({
         type: 'FIREBASE_UPDATE',
@@ -289,11 +290,11 @@ export default class Firedux {
     const { dispatch } = this
     return new Promise((resolve, reject) => {
       if (this.removing[path]) {
-        debug('already removing', path)
+        // debug('already removing', path)
         return { type: 'FIREBASE_REMOVE_PENDING' }
       }
       this.removing[path] = true
-      debug('FB remove', path)
+      // debug('FB remove', path)
 
       let value
 
@@ -325,7 +326,7 @@ export default class Firedux {
     const newValue = this.cleanValue(value)
 
     return new Promise((resolve, reject) => {
-      debug('FB PUSH', toPath, newValue)
+      // debug('FB PUSH', toPath, newValue)
 
       let path, newId
       const ref = that.ref.child(toPath)
