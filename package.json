@@ -7,7 +7,9 @@
   "scripts": {
     "verb": "verb",
     "test": "npm-run-all test:*",
-    "test:lint": "eslint src",
+    "test:lint": "npm-run-all test:lint:*",
+    "test:lint:src": "eslint src",
+    "test:lint:test": "eslint test",
     "test:unit": "npm-run-all test:unit:*",
     "test:unit:firebase@2": "npm i firebase@2 && npm run _test:unit:firebase@2",
     "test:unit:firebase@3": "npm i firebase@3 && npm run _test:unit:firebase@3",
