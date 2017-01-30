@@ -28,9 +28,13 @@ $ npm i firedux --save
 
 You'll need to configure `redux-thunk` on your Redux store.
 
-Assumes a global `Promise` implementation - polyfill as needed.
-
 The browser build ([`dist/src/index.browser.js`](dist/src/index.browser.js)) should support UMD (AMD, CommonJS, and globals). If using globals with Firebase 2.x you may need to alias `firebase` as `Firebase` prior to loading this module. Other shims may be necessary. Please report any issues or findings.
+
+Dependencies:
+* firebase
+* lodash: as `_` if using globals
+* updeep
+* `Promise`: polyfill globally as needed
 
 ## Use
 
