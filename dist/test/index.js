@@ -26,6 +26,7 @@ describe('test', function (t) {
   var firedux = void 0;
   var reducer = void 0;
   var store = void 0;
+  var middleware = void 0;
 
   (0, _es.beforeEach)(function (t) {
     firedux = new _src2.default({
@@ -40,7 +41,9 @@ describe('test', function (t) {
       firedux: firedux.reducer()
     });
 
-    store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(reducer);
+    middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default);
+
+    store = (0, _redux.createStore)(reducer, middleware);
 
     firedux.dispatch = store.dispatch;
   });

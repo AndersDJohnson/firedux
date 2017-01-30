@@ -28,6 +28,8 @@ $ npm i firedux --save
 
 You'll need to configure `redux-thunk` on your Redux store.
 
+Depends implicitly on a global `Promise` implementation - polyfill as needed.
+
 ## Use
 
 See [my TodoMVC example](https://github.com/AndersDJohnson/firedux-todomvc), the [tests](test/index.js), and below:

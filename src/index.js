@@ -1,6 +1,4 @@
 import Firebase from 'firebase'
-import _promise from 'es6-promise'
-const { Promise } = _promise
 import _ from 'lodash'
 import updeep from 'updeep'
 import gaTrack from 'google-analytics-js'
