@@ -16,7 +16,7 @@ Works well with [React](https://facebook.github.io/react/).
 
 Support firedux and fiery ducks like Magmar!
 
-[![Magmar](docs/magmar.gif)](https://www.firebase.com/)
+![Magmar](docs/magmar.gif)
 
 ## Install
 
