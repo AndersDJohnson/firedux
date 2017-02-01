@@ -112,8 +112,9 @@ export default class Firedux {
             }
             return state
           case 'FIREBASE_LOGIN':
-          case 'FIREBASE_LOGOUT':
           case 'FIREBASE_LOGIN_ERROR':
+          case 'FIREBASE_LOGOUT':
+          case 'FIREBASE_LOGOUT_ERROR':
             return updeep({
               authData: action.authData,
               authError: action.error
@@ -196,10 +197,9 @@ export default class Firedux {
       }
 
       try {
+        if (!credentials) reject()
         if (this.v3) {
-          // need to ignore redux
-          if (_.isFunction(credentials)) return null
-
+          if (!credentials.email && !credentials.password) reject()
           // TODO add custom later...
           this.auth()
             .signInWithEmailAndPassword(credentials.email, credentials.password)
@@ -222,17 +222,29 @@ export default class Firedux {
 
     return new Promise((resolve, reject) => {
       dispatch({type: 'FIREBASE_LOGOUT_ATTEMPT'})
-      if (this.v3) {
-        this.auth().signOut()
-        .then(() => resolve(), (error) => reject(error))
-      } else {
-        this.ref.unauth() // no callbacks for old firebase :(
+
+      const handleLogout = function () {
+        this.authData = null
+        this.authError = null
+        dispatch({type: 'FIREBASE_LOGOUT'})
+        resolve()
       }
 
-      this.authData = null
-      this.authError = null
-      dispatch({type: 'FIREBASE_LOGOUT'})
-      resolve()
+      const handleLogoutError = function (error) {
+        this.authData = null
+        this.authError = null
+        dispatch({type: 'FIREBASE_LOGOUT_ERROR', error})
+        if (error) reject(error)
+        else resolve()
+      }
+
+      if (this.v3) {
+        this.auth().signOut()
+        .then(handleLogout, handleLogoutError)
+      } else {
+        this.ref.unauth() // no callbacks for old firebase :(
+        handleLogout()
+      }
     })
   }
   watch (path, onComplete) {
