@@ -197,9 +197,15 @@ export default class Firedux {
       }
 
       try {
-        if (!credentials) reject()
+        if (!credentials) {
+          reject()
+          return
+        }
         if (this.v3) {
-          if (!credentials.email && !credentials.password) reject()
+          if (!credentials.email && !credentials.password) {
+            reject()
+            return
+          }
           // TODO add custom later...
           this.auth()
             .signInWithEmailAndPassword(credentials.email, credentials.password)
@@ -231,8 +237,6 @@ export default class Firedux {
       }
 
       const handleLogoutError = function (error) {
-        this.authData = null
-        this.authError = null
         dispatch({type: 'FIREBASE_LOGOUT_ERROR', error})
         if (error) reject(error)
         else resolve()
