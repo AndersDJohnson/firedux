@@ -185,7 +185,7 @@ export default class Firedux {
 
       const handler = function (error, authData) {
         // TODO: Error handling.
-        debug('FB AUTH', error, authData)
+        // debug('FB AUTH', error, authData)
 
         if (error) return handleError(error)
 
