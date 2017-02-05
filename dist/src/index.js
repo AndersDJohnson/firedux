@@ -12,10 +12,6 @@ var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var _es6Promise = require('es6-promise');
-
-var _es6Promise2 = _interopRequireDefault(_es6Promise);
-
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -28,17 +24,12 @@ var _googleAnalyticsJs = require('google-analytics-js');
 
 var _googleAnalyticsJs2 = _interopRequireDefault(_googleAnalyticsJs);
 
-var _debug2 = require('debug');
-
-var _debug3 = _interopRequireDefault(_debug2);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Promise = _es6Promise2.default.Promise;
-
-var debug = (0, _debug3.default)('firedux');
+// import _debug from 'debug'
+// const debug = _// debug('firedux')
 
 if (typeof window !== 'undefined') {
   if (!(window.FIREDUX_OPTIONS && window.FIREDUX_OPTIONS.noTrack)) {
@@ -55,10 +46,11 @@ var initialState = {
 function splitUrl(url) {
   return url.split(/\//);
 }
-function urlToKeyPath(url) {
-  var keyPath = splitUrl(url).join('.');
-  return keyPath;
-}
+
+// function urlToKeyPath (url) {
+//   const keyPath = splitUrl(url).join('.')
+//   return keyPath
+// }
 
 var Firedux = function () {
   function Firedux(options) {
@@ -84,11 +76,11 @@ var Firedux = function () {
     function makeFirebaseState(action, state, path, value) {
       var merge = arguments.length <= 4 || arguments[4] === undefined ? false : arguments[4];
 
-      var keyPath = urlToKeyPath(path);
+      // const keyPath = urlToKeyPath(path)
       // const dataPath = 'data.' + keyPath
       var dataPath = ['data'].concat(splitUrl(path));
       // const statusPath = 'status.' + keyPath
-      debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge);
+      // debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge)
       value = merge ? value : _updeep2.default.constant(value);
       var newState = _updeep2.default.updateIn(dataPath, value, state);
       return newState;
@@ -116,7 +108,7 @@ var Firedux = function () {
         var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
         var action = arguments[1];
 
-        debug('FIREBASE ACTION', action.type, action);
+        // debug('FIREBASE ACTION', action.type, action)
         switch (action.type) {
           case 'FIREBASE_GET':
           case 'FIREBASE_WATCH':
@@ -183,7 +175,7 @@ var Firedux = function () {
         // listen for auth changes
         if (_lodash2.default.isFunction(_this.ref.onAuth)) {
           _this.ref.onAuth(function (authData) {
-            debug('FB AUTH DATA', authData);
+            // debug('FB AUTH DATA', authData)
             if (!authData) {
               localStorage.removeItem('FIREBASE_TOKEN');
               that.authData = null;
@@ -208,7 +200,7 @@ var Firedux = function () {
 
         var handler = function handler(error, authData) {
           // TODO: Error handling.
-          debug('FB AUTH', error, authData);
+          // debug('FB AUTH', error, authData)
           if (error) {
             console.error('FB AUTH ERROR', error, authData);
             dispatch({ type: 'FIREBASE_LOGIN_ERROR', error: error });
@@ -259,13 +251,13 @@ var Firedux = function () {
 
       return new Promise(function (resolve) {
         if (_this4.watching[path]) {
-          // debug('already watching', path)
+          // // debug('already watching', path)
           return false;
         }
         _this4.watching[path] = true;
-        debug('DISPATCH WATCH', path);
+        // debug('DISPATCH WATCH', path)
         _this4.ref.child(path).on('value', function (snapshot) {
-          debug('GOT WATCHED VALUE', path, snapshot.val());
+          // debug('GOT WATCHED VALUE', path, snapshot.val())
           // TODO: Make watches smart enough to ignore pending updates, e.g. not replace
           //  a path that has been removed locally but is queued for remote delete?
           dispatch({
@@ -288,11 +280,11 @@ var Firedux = function () {
 
       return new Promise(function (resolve) {
         if (_this5.getting[path]) {
-          debug('already getting', path);
+          // debug('already getting', path)
           return { type: 'FIREBASE_GET_PENDING' };
         }
         _this5.getting[path] = true;
-        debug('FB GET', path);
+        // debug('FB GET', path)
         _this5.ref.child(path).once('value', function (snapshot) {
           _this5.getting[path] = false;
           dispatch({
@@ -314,7 +306,7 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         var newValue = _this6.cleanValue(value);
-        debug('FB SET', path, newValue);
+        // debug('FB SET', path, newValue)
         // optimism
         dispatch({
           type: 'FIREBASE_SET',
@@ -342,7 +334,7 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         var newValue = _this7.cleanValue(value);
-        debug('FB UPDATE', path, newValue);
+        // debug('FB UPDATE', path, newValue)
         // optimism
         dispatch({
           type: 'FIREBASE_UPDATE',
@@ -370,11 +362,11 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         if (_this8.removing[path]) {
-          debug('already removing', path);
+          // debug('already removing', path)
           return { type: 'FIREBASE_REMOVE_PENDING' };
         }
         _this8.removing[path] = true;
-        debug('FB remove', path);
+        // debug('FB remove', path)
 
         var value = void 0;
 
@@ -410,7 +402,7 @@ var Firedux = function () {
       var newValue = this.cleanValue(value);
 
       return new Promise(function (resolve, reject) {
-        debug('FB PUSH', toPath, newValue);
+        // debug('FB PUSH', toPath, newValue)
 
         var path = void 0,
             newId = void 0;

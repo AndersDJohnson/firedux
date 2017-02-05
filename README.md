@@ -16,7 +16,7 @@ Works well with [React](https://facebook.github.io/react/).
 
 Support firedux and fiery ducks like Magmar!
 
-[![Magmar](docs/magmar.gif)](https://www.firebase.com/)
+![Magmar](docs/magmar.gif)
 
 ## Install
 
@@ -27,6 +27,14 @@ $ npm i firedux --save
 ```
 
 You'll need to configure `redux-thunk` on your Redux store.
+
+The browser build ([`dist/src/index.browser.js`](dist/src/index.browser.js)) should support UMD (AMD, CommonJS, and globals). If using globals with Firebase 2.x you may need to alias `Firebase` as `firebase` prior to loading this module. Other shims may be necessary. Please report any issues or findings.
+
+Dependencies:
+* firebase
+* lodash: as `_` if using globals
+* updeep
+* `Promise`: polyfill globally as needed
 
 ## Use
 
@@ -49,8 +57,8 @@ var ref = new Firebase('https://redux-firebase.firebaseio.com/')
 var app = Firebase.initializeApp({
   apiKey: '<your-api-key>',
   authDomain: '<your-auth-domain>',
-  databaseURL: 'https://redux-firebase.firebaseio.com/',
-  storageBucket: '<your-storage-bucket>'
+  databaseURL: 'https://redux-firebase.firebaseio.com/'
+  // ...
 })
 var ref = app.database().ref()
 
