@@ -25,16 +25,12 @@
     "build:node": "npm-run-all build:node:*",
     "build": "npm-run-all build:*",
     "publish-please": "publish-please",
-    "prepublish": "publish-please guard"
-  },
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm run test:lint",
-      "commit-msg": "validate-commit-msg",
-      "pre-push": "npm run test",
-      "post-merge": "npm install",
-      "post-rewrite": "npm install"
-    }
+    "prepublish": "publish-please guard",
+    "precommit": "npm run test:lint",
+    "commitmsg": "validate-commit-msg",
+    "prepush": "npm run test",
+    "postmerge": "npm install",
+    "postrewrite": "npm install"
   },
   "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
   "bugs": {
