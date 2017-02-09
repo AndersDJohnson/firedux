@@ -26,10 +26,7 @@ describe('test', function (t) {
   var firedux = void 0;
   var reducer = void 0;
   var store = void 0;
-<<<<<<< HEAD
   var middleware = void 0;
-=======
->>>>>>> 65766fb... fix: login and logout based on review
 
   (0, _es.beforeEach)(function (t) {
     firedux = new _src2.default({
@@ -38,19 +35,15 @@ describe('test', function (t) {
 
     reducer = (0, _redux.combineReducers)({
       app: function app() {
-        var s = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        var s = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         return s;
       },
       firedux: firedux.reducer()
     });
 
-<<<<<<< HEAD
     middleware = (0, _redux.applyMiddleware)(_reduxThunk2.default);
 
     store = (0, _redux.createStore)(reducer, middleware);
-=======
-    store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(reducer);
->>>>>>> 65766fb... fix: login and logout based on review
 
     firedux.dispatch = store.dispatch;
   });
