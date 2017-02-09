@@ -6,19 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-<<<<<<< HEAD
-=======
-var _es6Promise = require('es6-promise');
-
-var _es6Promise2 = _interopRequireDefault(_es6Promise);
-
->>>>>>> 65766fb... fix: login and logout based on review
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -31,25 +24,12 @@ var _googleAnalyticsJs = require('google-analytics-js');
 
 var _googleAnalyticsJs2 = _interopRequireDefault(_googleAnalyticsJs);
 
-<<<<<<< HEAD
-=======
-var _debug2 = require('debug');
-
-var _debug3 = _interopRequireDefault(_debug2);
-
->>>>>>> 65766fb... fix: login and logout based on review
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-<<<<<<< HEAD
 // import _debug from 'debug'
 // const debug = _// debug('firedux')
-=======
-var Promise = _es6Promise2.default.Promise;
-
-var debug = (0, _debug3.default)('firedux');
->>>>>>> 65766fb... fix: login and logout based on review
 
 if (typeof window !== 'undefined') {
   if (!(window.FIREDUX_OPTIONS && window.FIREDUX_OPTIONS.noTrack)) {
@@ -66,18 +46,11 @@ var initialState = {
 function splitUrl(url) {
   return url.split(/\//);
 }
-<<<<<<< HEAD
 
 // function urlToKeyPath (url) {
 //   const keyPath = splitUrl(url).join('.')
 //   return keyPath
 // }
-=======
-function urlToKeyPath(url) {
-  var keyPath = splitUrl(url).join('.');
-  return keyPath;
-}
->>>>>>> 65766fb... fix: login and logout based on review
 
 var Firedux = function () {
   function Firedux(options) {
@@ -87,16 +60,13 @@ var Firedux = function () {
     if (options.url) {
       console.warn('Firedux option "url" is deprecated, use "ref" instead.');
     }
-<<<<<<< HEAD
 
-    this.v3 = options.ref !== null;
+    this.v3 = _firebase2.default.SDK_VERSION.substr(0, 2) === '3.';
 
     if (this.v3) {
-      this.auth = firebase.auth; // eslint-disable-line
+      this.auth = _firebase2.default.auth; // eslint-disable-line
     }
 
-=======
->>>>>>> 65766fb... fix: login and logout based on review
     this.url = options.url || options.ref.toString();
     this.ref = options.ref || new _firebase2.default(this.url);
     if (this.url.slice(-1) !== '/') {
@@ -109,27 +79,16 @@ var Firedux = function () {
     this.watching = {};
     this.actionId = 0;
     this.dispatch = null;
-<<<<<<< HEAD
     this.userAuth = null;
-=======
->>>>>>> 65766fb... fix: login and logout based on review
 
     function makeFirebaseState(action, state, path, value) {
-      var merge = arguments.length <= 4 || arguments[4] === undefined ? false : arguments[4];
+      var merge = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
-<<<<<<< HEAD
       // const keyPath = urlToKeyPath(path)
       // const dataPath = 'data.' + keyPath
       var dataPath = ['data'].concat(splitUrl(path));
       // const statusPath = 'status.' + keyPath
       // debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge)
-=======
-      var keyPath = urlToKeyPath(path);
-      // const dataPath = 'data.' + keyPath
-      var dataPath = ['data'].concat(splitUrl(path));
-      // const statusPath = 'status.' + keyPath
-      debug('MAKE FIREBASE STATE FOR ACTION', action.type, 'VALUE', keyPath, value, 'merge', merge);
->>>>>>> 65766fb... fix: login and logout based on review
       value = merge ? value : _updeep2.default.constant(value);
       var newState = _updeep2.default.updateIn(dataPath, value, state);
       return newState;
@@ -154,14 +113,10 @@ var Firedux = function () {
 
     this.reducer = function reducer() {
       return function () {
-        var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+        var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
         var action = arguments[1];
 
-<<<<<<< HEAD
         // debug('FIREBASE ACTION', action.type, action)
-=======
-        debug('FIREBASE ACTION', action.type, action);
->>>>>>> 65766fb... fix: login and logout based on review
         switch (action.type) {
           case 'FIREBASE_GET':
           case 'FIREBASE_WATCH':
@@ -189,8 +144,9 @@ var Firedux = function () {
             }
             return state;
           case 'FIREBASE_LOGIN':
-          case 'FIREBASE_LOGOUT':
           case 'FIREBASE_LOGIN_ERROR':
+          case 'FIREBASE_LOGOUT':
+          case 'FIREBASE_LOGOUT_ERROR':
             return (0, _updeep2.default)({
               authData: action.authData,
               authError: action.error
@@ -225,7 +181,6 @@ var Firedux = function () {
           }));
         }
 
-<<<<<<< HEAD
         if (_this.v3) {
           var auth = _this.auth();
 
@@ -246,12 +201,6 @@ var Firedux = function () {
         if (_lodash2.default.isFunction(_this.ref.onAuth)) {
           _this.ref.onAuth(function (authData) {
             // debug('FB AUTH DATA', authData)
-=======
-        // listen for auth changes
-        if (_lodash2.default.isFunction(_this.ref.onAuth)) {
-          _this.ref.onAuth(function (authData) {
-            debug('FB AUTH DATA', authData);
->>>>>>> 65766fb... fix: login and logout based on review
             if (!authData) {
               localStorage.removeItem('FIREBASE_TOKEN');
               that.authData = null;
@@ -274,9 +223,8 @@ var Firedux = function () {
       return new Promise(function (resolve, reject) {
         dispatch({ type: 'FIREBASE_LOGIN_ATTEMPT' });
 
-<<<<<<< HEAD
         var handleError = function handleError(error) {
-          var authData = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+          var authData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
           console.error('FB AUTH ERROR', error, authData);
           dispatch({ type: 'FIREBASE_LOGIN_ERROR', error: error });
@@ -285,41 +233,26 @@ var Firedux = function () {
 
         var handler = function handler(error, authData) {
           // TODO: Error handling.
-<<<<<<< HEAD
           // debug('FB AUTH', error, authData)
-=======
-        var handler = function handler(error, authData) {
-          // TODO: Error handling.
-          debug('FB AUTH', error, authData);
->>>>>>> 65766fb... fix: login and logout based on review
-          if (error) {
-            console.error('FB AUTH ERROR', error, authData);
-            dispatch({ type: 'FIREBASE_LOGIN_ERROR', error: error });
-            reject(error);
-            return;
-          }
-          localStorage.setItem('FIREBASE_TOKEN', authData.token);
-<<<<<<< HEAD
-=======
-          debug('FB AUTH', error, authData);
 
           if (error) return handleError(error);
 
           localStorage.setItem('FIREBASE_TOKEN', authData.token || authData.refreshToken);
->>>>>>> 3fb7500... feat: adding signin with password
-=======
->>>>>>> 65766fb... fix: login and logout based on review
           that.authData = authData;
           dispatch({ type: 'FIREBASE_LOGIN', authData: authData, error: error });
           resolve(authData);
         };
 
         try {
-<<<<<<< HEAD
+          if (!credentials) {
+            reject();
+            return;
+          }
           if (_this2.v3) {
-            // need to ignore redux
-            if (_lodash2.default.isFunction(credentials)) return null;
-
+            if (!credentials.email && !credentials.password) {
+              reject();
+              return;
+            }
             // TODO add custom later...
             _this2.auth().signInWithEmailAndPassword(credentials.email, credentials.password).then(function (authData) {
               return handler(null, authData);
@@ -327,9 +260,6 @@ var Firedux = function () {
               return handleError(error);
             });
           } else if (credentials.token) {
-=======
-          if (credentials.token) {
->>>>>>> 65766fb... fix: login and logout based on review
             _this2.ref.authWithCustomToken(_this2.token, handler);
           } else {
             _this2.ref.authWithPassword(credentials, handler);
@@ -348,29 +278,28 @@ var Firedux = function () {
 
       var dispatch = this.dispatch;
 
-<<<<<<< HEAD
 
       return new Promise(function (resolve, reject) {
         dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
+
+        var handleLogout = function handleLogout() {
+          this.authData = null;
+          this.authError = null;
+          dispatch({ type: 'FIREBASE_LOGOUT' });
+          resolve();
+        };
+
+        var handleLogoutError = function handleLogoutError(error) {
+          dispatch({ type: 'FIREBASE_LOGOUT_ERROR', error: error });
+          if (error) reject(error);else resolve();
+        };
+
         if (_this3.v3) {
-          _this3.auth().signOut().then(function () {
-            return resolve();
-          }, function (error) {
-            return reject(error);
-          });
+          _this3.auth().signOut().then(handleLogout, handleLogoutError);
         } else {
           _this3.ref.unauth(); // no callbacks for old firebase :(
+          handleLogout();
         }
-
-=======
-      return new Promise(function (resolve, reject) {
-        dispatch({ type: 'FIREBASE_LOGOUT_ATTEMPT' });
-        _this3.ref.unauth();
->>>>>>> 65766fb... fix: login and logout based on review
-        _this3.authData = null;
-        _this3.authError = null;
-        dispatch({ type: 'FIREBASE_LOGOUT' });
-        resolve();
       });
     }
   }, {
@@ -382,7 +311,6 @@ var Firedux = function () {
 
       return new Promise(function (resolve) {
         if (_this4.watching[path]) {
-<<<<<<< HEAD
           // // debug('already watching', path)
           return false;
         }
@@ -390,15 +318,6 @@ var Firedux = function () {
         // debug('DISPATCH WATCH', path)
         _this4.ref.child(path).on('value', function (snapshot) {
           // debug('GOT WATCHED VALUE', path, snapshot.val())
-=======
-          // debug('already watching', path)
-          return false;
-        }
-        _this4.watching[path] = true;
-        debug('DISPATCH WATCH', path);
-        _this4.ref.child(path).on('value', function (snapshot) {
-          debug('GOT WATCHED VALUE', path, snapshot.val());
->>>>>>> 65766fb... fix: login and logout based on review
           // TODO: Make watches smart enough to ignore pending updates, e.g. not replace
           //  a path that has been removed locally but is queued for remote delete?
           dispatch({
@@ -421,19 +340,11 @@ var Firedux = function () {
 
       return new Promise(function (resolve) {
         if (_this5.getting[path]) {
-<<<<<<< HEAD
           // debug('already getting', path)
           return { type: 'FIREBASE_GET_PENDING' };
         }
         _this5.getting[path] = true;
         // debug('FB GET', path)
-=======
-          debug('already getting', path);
-          return { type: 'FIREBASE_GET_PENDING' };
-        }
-        _this5.getting[path] = true;
-        debug('FB GET', path);
->>>>>>> 65766fb... fix: login and logout based on review
         _this5.ref.child(path).once('value', function (snapshot) {
           _this5.getting[path] = false;
           dispatch({
@@ -455,11 +366,7 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         var newValue = _this6.cleanValue(value);
-<<<<<<< HEAD
         // debug('FB SET', path, newValue)
-=======
-        debug('FB SET', path, newValue);
->>>>>>> 65766fb... fix: login and logout based on review
         // optimism
         dispatch({
           type: 'FIREBASE_SET',
@@ -487,11 +394,7 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         var newValue = _this7.cleanValue(value);
-<<<<<<< HEAD
         // debug('FB UPDATE', path, newValue)
-=======
-        debug('FB UPDATE', path, newValue);
->>>>>>> 65766fb... fix: login and logout based on review
         // optimism
         dispatch({
           type: 'FIREBASE_UPDATE',
@@ -519,19 +422,11 @@ var Firedux = function () {
 
       return new Promise(function (resolve, reject) {
         if (_this8.removing[path]) {
-<<<<<<< HEAD
           // debug('already removing', path)
           return { type: 'FIREBASE_REMOVE_PENDING' };
         }
         _this8.removing[path] = true;
         // debug('FB remove', path)
-=======
-          debug('already removing', path);
-          return { type: 'FIREBASE_REMOVE_PENDING' };
-        }
-        _this8.removing[path] = true;
-        debug('FB remove', path);
->>>>>>> 65766fb... fix: login and logout based on review
 
         var value = void 0;
 
@@ -567,11 +462,7 @@ var Firedux = function () {
       var newValue = this.cleanValue(value);
 
       return new Promise(function (resolve, reject) {
-<<<<<<< HEAD
         // debug('FB PUSH', toPath, newValue)
-=======
-        debug('FB PUSH', toPath, newValue);
->>>>>>> 65766fb... fix: login and logout based on review
 
         var path = void 0,
             newId = void 0;
