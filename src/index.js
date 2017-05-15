@@ -1,13 +1,18 @@
 import Firebase from 'firebase'
 import _ from 'lodash'
 import updeep from 'updeep'
-import gaTrack from 'google-analytics-js'
 // import _debug from 'debug'
 // const debug = _// debug('firedux')
 
 if (typeof window !== 'undefined') {
   if (!(window.FIREDUX_OPTIONS && window.FIREDUX_OPTIONS.noTrack)) {
-    gaTrack('UA-82065077-1', 'github.com', '/adjohnson916/firedux/src/index.js')
+    gaTrack = import('google-analytics-js').then(gaTrack =>
+      gaTrack(
+        'UA-82065077-1',
+        'github.com',
+        '/adjohnson916/firedux/src/index.js'
+      )
+    );
   }
 }
 
