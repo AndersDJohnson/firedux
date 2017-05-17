@@ -151,7 +151,7 @@ export default class Firedux {
             localStorage.removeItem('FIREBASE_TOKEN')
             that.authData = null
             dispatch({type: 'FIREBASE_LOGOUT'})
-            reject()
+            reject(new Error('FIREBASE_LOGOUT'))
           }
         })
       }
@@ -164,7 +164,7 @@ export default class Firedux {
             localStorage.removeItem('FIREBASE_TOKEN')
             that.authData = null
             dispatch({type: 'FIREBASE_LOGOUT'})
-            reject()
+            reject(new Error('FIREBASE_LOGOUT'))
           }
           resolve(authData)
         })
@@ -197,12 +197,16 @@ export default class Firedux {
 
       try {
         if (!credentials) {
-          reject()
+          reject(new Error('no credentials'))
           return
         }
         if (this.v3) {
-          if (!credentials.email && !credentials.password) {
-            reject()
+          if (!credentials.email) {
+            reject(new Error('credentials missing email'))
+            return
+          }
+          if (!credentials.password) {
+            reject(new Error('credentials missing password'))
             return
           }
           // TODO add custom later...
