@@ -32,7 +32,7 @@
     "prepush": "npm run test",
     "postmerge": "npm install",
     "postrewrite": "npm install",
-    "build:analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+    "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
   "bugs": {
