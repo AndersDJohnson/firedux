@@ -1,5 +1,5 @@
 import Firebase from 'firebase'
-import _ from 'lodash'
+import { isFunction, isObject, omit, get } from 'lodash'
 import updeep from 'updeep'
 import gaTrack from 'google-analytics-js'
 // import _debug from 'debug'
@@ -70,7 +70,7 @@ export default class Firedux {
 
       // get & set value for restore in case of error
       // TODO: Find a cleaner way to do this.
-      action.setValue(_.get(state, dataSplit))
+      action.setValue(get(state, dataSplit))
 
       const id = split.pop()
       const parentPath = split.join('.')
@@ -127,7 +127,7 @@ export default class Firedux {
     return this
   }
   cleanValue (value) {
-    return _.isObject(value) ? _.omit(value, this.omit) : value
+    return isObject(value) ? omit(value, this.omit) : value
   }
   init () {
     const { dispatch } = this
@@ -157,7 +157,7 @@ export default class Firedux {
       }
 
       // listen for auth changes
-      if (_.isFunction(this.ref.onAuth)) {
+      if (isFunction(this.ref.onAuth)) {
         this.ref.onAuth(function (authData) {
           // debug('FB AUTH DATA', authData)
           if (!authData) {
@@ -406,7 +406,7 @@ export default class Firedux {
       })
       path = pushRef.toString().replace(that.url, '')
       // function in firebase@2, property in firebase@3
-      newId = _.isFunction(pushRef, 'key') ? pushRef.key() : pushRef.key
+      newId = isFunction(pushRef, 'key') ? pushRef.key() : pushRef.key
       if (onId) onId(newId)
 
       // optimism
