@@ -4,6 +4,22 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _get2 = require('lodash/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
+var _omit2 = require('lodash/omit');
+
+var _omit3 = _interopRequireDefault(_omit2);
+
+var _isObject2 = require('lodash/isObject');
+
+var _isObject3 = _interopRequireDefault(_isObject2);
+
+var _isFunction2 = require('lodash/isFunction');
+
+var _isFunction3 = _interopRequireDefault(_isFunction2);
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -11,10 +27,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
 
 var _updeep = require('updeep');
 
@@ -44,7 +56,7 @@ var initialState = {
 };
 
 function splitUrl(url) {
-  return url.split(/\//);
+  return url.split('/');
 }
 
 // function urlToKeyPath (url) {
@@ -100,7 +112,7 @@ var Firedux = function () {
 
       // get & set value for restore in case of error
       // TODO: Find a cleaner way to do this.
-      action.setValue(_lodash2.default.get(state, dataSplit));
+      action.setValue((0, _get3.default)(state, dataSplit));
 
       var id = split.pop();
       var parentPath = split.join('.');
@@ -163,7 +175,7 @@ var Firedux = function () {
   _createClass(Firedux, [{
     key: 'cleanValue',
     value: function cleanValue(value) {
-      return _lodash2.default.isObject(value) ? _lodash2.default.omit(value, this.omit) : value;
+      return (0, _isObject3.default)(value) ? (0, _omit3.default)(value, this.omit) : value;
     }
   }, {
     key: 'init',
@@ -192,20 +204,20 @@ var Firedux = function () {
               localStorage.removeItem('FIREBASE_TOKEN');
               that.authData = null;
               dispatch({ type: 'FIREBASE_LOGOUT' });
-              reject();
+              reject(new Error('FIREBASE_LOGOUT'));
             }
           });
         }
 
         // listen for auth changes
-        if (_lodash2.default.isFunction(_this.ref.onAuth)) {
+        if ((0, _isFunction3.default)(_this.ref.onAuth)) {
           _this.ref.onAuth(function (authData) {
             // debug('FB AUTH DATA', authData)
             if (!authData) {
               localStorage.removeItem('FIREBASE_TOKEN');
               that.authData = null;
               dispatch({ type: 'FIREBASE_LOGOUT' });
-              reject();
+              reject(new Error('FIREBASE_LOGOUT'));
             }
             resolve(authData);
           });
@@ -245,12 +257,16 @@ var Firedux = function () {
 
         try {
           if (!credentials) {
-            reject();
+            reject(new Error('no credentials'));
             return;
           }
           if (_this2.v3) {
-            if (!credentials.email && !credentials.password) {
-              reject();
+            if (!credentials.email) {
+              reject(new Error('credentials missing email'));
+              return;
+            }
+            if (!credentials.password) {
+              reject(new Error('credentials missing password'));
               return;
             }
             // TODO add custom later...
@@ -481,7 +497,7 @@ var Firedux = function () {
         });
         path = pushRef.toString().replace(that.url, '');
         // function in firebase@2, property in firebase@3
-        newId = _lodash2.default.isFunction(pushRef, 'key') ? pushRef.key() : pushRef.key;
+        newId = (0, _isFunction3.default)(pushRef, 'key') ? pushRef.key() : pushRef.key;
         if (onId) onId(newId);
 
         // optimism
