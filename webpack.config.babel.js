@@ -1,11 +1,15 @@
 import webpack from 'webpack'
-import webpackUMDExternal from 'webpack-umd-external'
+
+const entry = `${__dirname}/src/index.js`
 
 module.exports = {
-  entry: `${__dirname}/src/index.js`,
+  entry: {
+    'index.browser': entry,
+    'index.browser.min': entry
+  },
   output: {
     path: `${__dirname}/dist/src`,
-    filename: 'index.browser.js',
+    filename: '[name].js',
     library: 'firedux',
     libraryTarget: 'umd',
     umdNamedDefine: true
@@ -14,10 +18,7 @@ module.exports = {
     {
       firebase: 'firebase',
       updeep: 'updeep'
-    },
-    webpackUMDExternal({
-      lodash: '_'
-    })
+    }
   ],
   module: {
     rules: [
@@ -30,6 +31,8 @@ module.exports = {
   },
   devtool: 'source-map',
   plugins: [
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/
+    })
   ]
 }
