@@ -18,7 +18,7 @@ const initialState = {
 }
 
 function splitUrl (url) {
-  return url.split(/\//)
+  return url.split('/')
 }
 
 // function urlToKeyPath (url) {
