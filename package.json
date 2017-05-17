@@ -31,7 +31,8 @@
     "commitmsg": "validate-commit-msg",
     "prepush": "npm run test",
     "postmerge": "npm install",
-    "postrewrite": "npm install"
+    "postrewrite": "npm install",
+    "build:analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "author": "Anders D. Johnson (https://github.com/adjohnson916)",
   "bugs": {
@@ -70,6 +71,7 @@
     "verb-cli": "^0.7.4",
     "watchify": "^3.7.0",
     "webpack": "^2.5.1",
+    "webpack-bundle-analyzer": "^2.8.1",
     "webpack-umd-external": "^1.0.2"
   },
   "dependencies": {
