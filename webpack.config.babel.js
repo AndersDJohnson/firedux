@@ -1,9 +1,10 @@
-var webpackUMDExternal = require('webpack-umd-external')
+import webpack from 'webpack'
+import webpackUMDExternal from 'webpack-umd-external'
 
 module.exports = {
-  entry: './src/index.js',
+  entry: `${__dirname}/src/index.js`,
   output: {
-    path: 'dist/src',
+    path: `${__dirname}/dist/src`,
     filename: 'index.browser.js',
     library: 'firedux',
     libraryTarget: 'umd',
@@ -19,13 +20,16 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: 'babel-loader'
       }
     ]
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 }
