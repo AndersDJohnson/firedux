@@ -59,7 +59,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.3.2",
     "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.13.1",
+    "husky": "^0.14.2",
     "mocha": "^3.0.2",
     "npm-run-all": "^4.0.1",
     "publish-please": "^2.2.0",
