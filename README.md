@@ -22,9 +22,7 @@ Support firedux and fiery ducks like Magmar!
 
 Install with [npm](https://www.npmjs.com/)
 
-```sh
-$ npm i firedux --save
-```
+[![npm i --save firedux (copy)](https://copyhaste.com/i?t=npm%20i%20--save%20firedux)](https://copyhaste.com/c?t=npm%20i%20--save%20firedux "npm i --save firedux (copy)")
 
 You'll need to configure `redux-thunk` on your Redux store.
 
