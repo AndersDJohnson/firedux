@@ -1,10 +1,10 @@
-# :fire: :hatching_chick: firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)  [![Firebase](https://raw.githubusercontent.com/firebase/firebase-chrome-extension/master/icons/icon48.png)](https://www.firebase.com) [![ReactJS](https://raw.githubusercontent.com/facebook/react/master/docs/img/logo_small.png)](https://facebook.github.io/react)
+# :fire: :hatching_chick: firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)  [![Firebase](https://raw.githubusercontent.com/firebase/firebase-chrome-extension/master/icons/icon48.png)](https://www.firebase.com) [![React](https://raw.githubusercontent.com/facebook/react/master/docs/img/logo_small.png)](https://facebook.github.io/react)
 
-> Firebase + Redux for ReactJS
+> Firebase + Redux for React
 
 [![NPM](https://nodei.co/npm/firedux.png)](https://nodei.co/npm/firedux/)
 
-Firedux (_fiery·ducks_) wraps the [Firebase](https://www.firebase.com/) [JavaScript API](https://www.firebase.com/docs/web/api/)
+Firedux (_fiery·ducks_) wraps the [Firebase](https://firebase.google.com/) [JavaScript API](https://firebase.google.com/docs/reference/js/)
 to dispatch [Redux](http://redux.js.org/) actions
 that optimisically & immediately read/write to an in-memory
 subset of your data from Firebase,
@@ -29,9 +29,9 @@ You'll need to configure `redux-thunk` on your Redux store.
 The browser build ([`dist/src/index.browser.js`](dist/src/index.browser.js)) should support UMD (AMD, CommonJS, and globals). If using globals with Firebase 2.x you may need to alias `Firebase` as `firebase` prior to loading this module. Other shims may be necessary. Please report any issues or findings.
 
 Dependencies:
-* firebase
-* lodash: as `_` if using globals
-* updeep
+* `firebase`
+* `lodash`: as `_` if using globals
+* `updeep`
 * `Promise`: polyfill globally as needed
 
 ## Use
