@@ -1,6 +1,6 @@
 {
   "name": "firedux",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Firebase + Redux for ReactJS",
   "repository": "AndersDJohnson/firedux",
   "main": "dist/src/index.js",
@@ -34,7 +34,7 @@
     "postrewrite": "yarn addnstall",
     "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
-  "author": "Anders D. Johnson (https://github.com/AndersDJohnson)",
+  "author": "Anders D. Johnson (https://andersdjohnson.com)",
   "bugs": {
     "url": "https://github.com/AndersDJohnson/firedux/issues"
   },
