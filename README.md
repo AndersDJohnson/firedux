@@ -14,10 +14,6 @@ Also supports some authentication methods and actions.
 
 Works well with [React](https://facebook.github.io/react/).
 
-Support firedux and fiery ducks like Magmar!
-
-![Magmar](docs/magmar.gif)
-
 ## Install
 
 Install with [npm](https://www.npmjs.com/)
