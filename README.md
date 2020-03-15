@@ -1,4 +1,4 @@
-# :fire: :hatching_chick: firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)  [![Firebase](https://raw.githubusercontent.com/firebase/firebase-chrome-extension/master/icons/icon48.png)](https://www.firebase.com) [![React](https://raw.githubusercontent.com/facebook/react/master/docs/img/logo_small.png)](https://facebook.github.io/react)
+# :fire: :hatching_chick: firedux [![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)  [![Firebase](https://raw.githubusercontent.com/firebase/firebase-chrome-extension/master/icons/icon48.png)](https://www.firebase.com) [![React](https://raw.githubusercontent.com/facebook/react/15-stable/docs/img/logo_small.png)](https://facebook.github.io/react)
 
 > Firebase + Redux for React
 
