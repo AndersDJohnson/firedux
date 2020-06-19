@@ -35,6 +35,7 @@
     "analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "author": "Anders D. Johnson (https://andersdjohnson.com)",
+  "funding": "https://github.com/sponsors/AndersDJohnson",
   "bugs": {
     "url": "https://github.com/AndersDJohnson/firedux/issues"
   },
