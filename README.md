@@ -14,7 +14,7 @@ Also supports some authentication methods and actions.
 
 Works well with [React](https://facebook.github.io/react/).
 
-See docs at https://andersdjohnson.com/github-readmes/firedux/.
+See docs at https://andersdjohnson.com/code/firedux/.
 
 ## Author
 
