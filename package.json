@@ -68,8 +68,6 @@
     "redux-thunk": "^2.1.0",
     "standard-version": "^4.0.0",
     "validate-commit-msg": "^2.6.1",
-    "verb": "^0.8.10",
-    "verb-cli": "^0.7.4",
     "watchify": "^3.7.0",
     "webpack": "^2.5.1",
     "webpack-bundle-analyzer": "^2.8.1",
