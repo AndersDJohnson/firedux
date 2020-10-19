@@ -1,1 +1,4 @@
 remote_theme: AndersDJohnson/andersdjohnson-jekyll-theme
+
+plugins:
+  - jemoji
