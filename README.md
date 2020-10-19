@@ -25,5 +25,5 @@ See docs at https://andersdjohnson.github.io/firedux/.
 
 ## License
 
-Copyright © 2015-2016 [Anders D. Johnson](https://github.com/AndersDJohnson)
+Copyright © 2015-2020 [Anders D. Johnson](https://github.com/AndersDJohnson)
 Released under the MIT license.
