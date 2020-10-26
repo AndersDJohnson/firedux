@@ -1,4 +1,6 @@
 remote_theme: AndersDJohnson/andersdjohnson-jekyll-theme
 
+google_analytics: "G-GKW4WE5K60"
+
 plugins:
   - jemoji
