@@ -1,9 +1,5 @@
 # :fire: :hatching_chick: [![Firebase](https://raw.githubusercontent.com/firebase/firebase-chrome-extension/master/icons/icon48.png)](https://www.firebase.com) [![React](https://raw.githubusercontent.com/facebook/react/15-stable/docs/img/logo_small.png)](https://facebook.github.io/react)
 
-[![NPM version](https://badge.fury.io/js/firedux.svg)](http://badge.fury.io/js/firedux)  [![Build Status](https://travis-ci.org/AndersDJohnson/firedux.svg)](https://travis-ci.org/AndersDJohnson/firedux)
-
-[![NPM](https://nodei.co/npm/firedux.png)](https://nodei.co/npm/firedux/)
-
 Firedux (_fiery·ducks_) wraps the [Firebase](https://firebase.google.com/) [JavaScript API](https://firebase.google.com/docs/reference/js/)
 to dispatch [Redux](http://redux.js.org/) actions
 that optimisically & immediately read/write to an in-memory
@@ -18,7 +14,7 @@ Works well with [React](https://facebook.github.io/react/).
 
 Install with [npm](https://www.npmjs.com/)
 
-[![npm i --save firedux (copy)](https://copyhaste.com/i?t=npm%20i%20--save%20firedux)](https://copyhaste.com/c?t=npm%20i%20--save%20firedux "npm i --save firedux (copy)")
+[![npm add firedux (copy)](https://copyhaste.com/i?t=npm%20add%20firedux)](https://copyhaste.com/c?t=npm%20add%20firedux "npm add firedux (copy)")
 
 You'll need to configure `redux-thunk` on your Redux store.
 
