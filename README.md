@@ -2,7 +2,7 @@
 
 > Firebase + Redux for React
 
-[![NPM](https://nodei.co/npm/firedux.png)](https://nodei.co/npm/firedux/)
+[:book: Read the docs!](https://andersdjohnson.github.io/anchorate/)
 
 Firedux (_fiery·ducks_) wraps the [Firebase](https://firebase.google.com/) [JavaScript API](https://firebase.google.com/docs/reference/js/)
 to dispatch [Redux](http://redux.js.org/) actions
@@ -13,8 +13,6 @@ then asynchronously pull & push data in the background.
 Also supports some authentication methods and actions.
 
 Works well with [React](https://facebook.github.io/react/).
-
-See docs at https://andersdjohnson.github.io/firedux/.
 
 ## Author
 
