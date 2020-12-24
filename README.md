@@ -2,7 +2,7 @@
 
 > Firebase + Redux for React
 
-[:book: Read the docs!](https://andersdjohnson.github.io/anchorate/)
+[:book: Read the docs!](https://andersdjohnson.github.io/firedux/)
 
 Firedux (_fiery·ducks_) wraps the [Firebase](https://firebase.google.com/) [JavaScript API](https://firebase.google.com/docs/reference/js/)
 to dispatch [Redux](http://redux.js.org/) actions
