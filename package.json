@@ -74,7 +74,7 @@
     "webpack-umd-external": "^1.0.2"
   },
   "dependencies": {
-    "debug": "^2.2.0",
+    "debug": "^3.1.0",
     "firebase": "3",
     "google-analytics-js": "^0.1.0",
     "lodash": "^4.15.0",
